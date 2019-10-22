@@ -35,3 +35,19 @@ void Bullet::reactWith(Entity *e)
 			break;
 	}
 }
+
+void Bullet::showDebugInfo(double _x, double _y)
+{
+	setPenColor(RED);
+	setPenWidth(2);
+	if (user != nullptr)
+	{
+		line(
+				getX() - _x + W_Width / 2,
+				getY() - _y + W_Height / 2,
+				user->getX() - _x + W_Width / 2,
+				user->getY() - _y + W_Height / 2
+			);
+	}
+	showBox(_x, _y);
+}

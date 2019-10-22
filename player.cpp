@@ -8,6 +8,8 @@ Player::Player():
 {
 	holding = 0;
 	for (int i = 0; i < PLAYER_MAX_ITEM; i++) item[i] = nullptr;
+	setImg(Player_Img[DOWN][0]);
+	setBox(Player_Box[DOWN]);
 }
 
 Player::~Player()
@@ -80,12 +82,6 @@ void Player::useItem()
 
 void Player::switchItem()
 {
-	/*int tmp = (holding - 1 + PLAYER_MAX_ITEM) % PLAYER_MAX_ITEM;
-	while (holding != tmp && item[holding] == nullptr)
-	{
-		holding++;
-		if (holding == PLAYER_MAX_ITEM) holding = 0;
-	}*/
 	holding = (holding + 1) % PLAYER_MAX_ITEM;
 	for (int i = 0; i < PLAYER_MAX_ITEM; i++) printf("%d ", item[i] == nullptr ? 0 : item[i]->getType());
 	printf("\n");
@@ -110,27 +106,54 @@ bool Player::haveItem(int tp)
 
 void Player::turn(int dir)
 {
+	if (dir == -1)
+	{
+		setImg(Player_Img[facing()][0]);
+		animCounter = 0;
+		return;
+	}
 	setFacingDir(dir);
-	animCounter = (animCounter + 1) % 16;
-	setImgPtr(ANIM_Player[dir][animCounter > 8]);
+	setBox(Player_Box[dir]);
+	animCounter++;
+	if (animCounter >= 16) animCounter = 0;
+	setImg(Player_Img[dir][animCounter / 2 + 1]);
 }
+
+ACL_Image itmp;
 
 void Player::showImg()
 {
-	putImageTransparent(getImgPtr(), (W_Width - getW()) / 2, (W_Height - getH()) / 2, getW(), getH(), BLUE);
-	ACL_Image tmp;
-	for (int i = 1; i <= 20; i++)
+	ImgForm _img = getImg();
+	loadImage(_img.path, &itmp);
+	putImageTransparent(&itmp, W_Width / 2 + _img.x, W_Height / 2 + _img.y, _img.w, _img.h, BLUE);
+	for (int i = 2; i <= 40; i += 2)
 	{
 		if (getHealth() >= i)
 		{
-			loadImage("src/heart/heart_full.bmp", &tmp);
-			putImageTransparent(&tmp, 40 + 36 * ((i - 1) % 10), 40 + 32 * (i > 10), 32, 28, BLUE);
+			loadImage("src/heart/heart_full.bmp", &itmp);
+		}
+		else if (getHealth() == i - 1)
+		{
+			loadImage("src/heart/heart_half.bmp", &itmp);
 		}
 		else
 		{
-			loadImage("src/heart/heart_empty.bmp", &tmp);
-			putImageTransparent(&tmp, 40 + 36 * ((i - 1) % 10), 40 + 32 * (i > 10), 32, 28, BLUE);
+			loadImage("src/heart/heart_empty.bmp", &itmp);
 		}
+		putImageTransparent(&itmp, 40 + 36 * ((i / 2 - 1) % 10), 40 + 32 * (i / 2 > 10), 32, 28, BLUE);
 	}
 	if (item[holding] != nullptr) item[holding]->display();
+}
+
+void Player::checkHealth()
+{
+	if (getHealth() == 0 || getHealth() > 3) return;
+	if (lHealthCounter >= 30 * getHealth())
+	{
+		lHealthCounter = 0;
+		ACL_Sound ctmp;
+		loadSound("src/sound/LowHealth.wav", &ctmp);
+		playSound(ctmp, 0);
+	}
+	lHealthCounter++;
 }

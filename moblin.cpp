@@ -5,6 +5,8 @@ Moblin::Moblin():
 {
 	moveCounter = rand() % 80;
 	setFacingDir(rand() % 4);
+	setImg(ImgForm{"src/moblin0.bmp", -32, -32, 64, 64});
+	setBox(BumpBox{-32, -32, 64, 64});
 }
 
 void Moblin::reactWith(Entity *e)
@@ -53,12 +55,30 @@ void Moblin::attackedBehavior(Entity *e)
 		case C_Bullet:
 			if (target != nullptr) break;
 			target = e->user;
+			setSpeed(3);
 			break;
 		case C_Armor:
 			if (target != nullptr) break;
 			target = e->user;
+			setSpeed(3);
 			break;
 		default:
 			avoid(e);
 	}
+}
+
+void Moblin::showDebugInfo(double _x, double _y)
+{
+	if (target != nullptr)
+	{
+		setPenColor(RED);
+		setPenWidth(2);
+		line(
+				getX() - _x + W_Width / 2,
+				getY() - _y + W_Height / 2,
+				target->getX() - _x + W_Width / 2,
+				target->getY() - _y + W_Height / 2
+			);
+	}
+	showBox(_x, _y);
 }

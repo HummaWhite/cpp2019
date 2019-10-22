@@ -13,6 +13,7 @@ int main()
 		 "moblin.cpp "
 		 "arrow.cpp "
 		 "bullet.cpp "
+		 "slime.cpp "
 		 "-std=c++11 -g"
 		);
 	system
@@ -27,6 +28,7 @@ int main()
 		 "moblin.o "
 		 "arrow.o "
 		 "bullet.o "
+		 "slime.o "
 		 "-lgdi32 -lole32 -loleaut32 -luuid -lwinmm -lmsimg32 "
 		 "-o test02.exe -g"
 		);

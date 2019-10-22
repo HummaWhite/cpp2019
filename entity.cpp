@@ -2,10 +2,6 @@
 
 Entity::Entity(int tp)
 {
-	img = (ACL_Image*)malloc(sizeof(ACL_Image));
-	loadImage(TP_INFO[tp].imgPath, img);
-	w = TP_INFO[tp].w;
-	h = TP_INFO[tp].h;
 	moveSpeed = TP_INFO[tp].speed;
 	maxHealth = health = TP_INFO[tp].health;
 	att = TP_INFO[tp].att;
@@ -14,21 +10,20 @@ Entity::Entity(int tp)
 	lstEffect = clock() - (clock_t)100 * CLOCKS_PER_SEC;
 	buf = nullptr;
 	target = nullptr;
+	user = nullptr;
 	facingDir = DOWN;
 }
 
 Entity::Entity(double x1, double y1, double x2, double y2, int dir)
 {
-	img = nullptr;
 	x = (x1 + x2) / 2, y = (y1 + y2) / 2;
-	w = x2 - x1, h = y2 - y1;
+	setBox(BumpBox{x1 - x, y1 - y, x2 - x1, y2 - y1});
 	facingDir = dir;
 	type = B_Wall;
 }
 
 Entity::~Entity()
 {
-	freeImage(img);
 }
 
 int Entity::getType()
@@ -51,16 +46,6 @@ double Entity::getY()
 	return y;
 }
 
-double Entity::getW()
-{
-	return w;
-}
-
-double Entity::getH()
-{
-	return h;
-}
-
 void Entity::setSpeed(double speed)
 {
 	moveSpeed = speed;
@@ -74,11 +59,6 @@ void Entity::setAtt(int _att)
 void Entity::setPos(double _x, double _y)
 {
 	x = _x, y = _y;
-}
-
-void Entity::setScale(double _w, double _h)
-{
-	w = _w, h = _h;
 }
 
 void Entity::moveDir(double dx, double dy)
@@ -145,7 +125,26 @@ void Entity::hurt(int att)
 	clock_t curTime = clock();
 	if ((double)(curTime - lstHurt) / CLOCKS_PER_SEC < 1.0) return;
 	health -= att;
+	if (health < 0) health = 0;
 	lstHurt = curTime;
+	hurtSound();
+}
+
+void Entity::hurtSound()
+{
+	ACL_Sound stmp;
+	switch (category())
+	{
+		case C_Monster:
+			loadSound("src/sound/Enemy_Hit.wav", &stmp);
+			break;
+		case C_Player:
+			loadSound("src/sound/Link_Hurt.wav", &stmp);
+			break;
+		default:
+			loadSound("", &stmp);
+	}
+	playSound(stmp, 0);
 }
 
 void Entity::heal(int recv)
@@ -164,10 +163,13 @@ int Entity::getHealth()
 	return health;
 }
 
+ACL_Image tmp;
+
 void Entity::showImg(double _x, double _y)
 {
 	if (type == B_Wall) return;
-	putImageTransparent(img, x - _x + (W_Width - w) / 2, y - _y + (W_Height - h) / 2, w, h, BLUE);
+	loadImage(img.path, &tmp);
+	putImageTransparent(&tmp, x - _x + W_Width / 2 + img.x, y - _y + W_Height / 2 + img.y, img.w, img.h, BLUE);
 }
 
 void Entity::showImg()
@@ -176,37 +178,55 @@ void Entity::showImg()
 	showImg(W_Width / 2, W_Height / 2);
 }
 
-void Entity::dispHealth()
+void Entity::dispHealth(double _x, double _y)
 {
+	_x -= W_Width / 2 - 20, _y -= W_Height / 2 - 20;
 	setPenColor(BLUE);
 	setBrushColor(WHITE);
 	setPenWidth(1);
-	rectangle(x - 1, y - 25, x + w + 1, y - 20);
+	rectangle(x - 1 - _x, y - 25 - _y, x + 40 + 1 - _x, y - 20 - _y);
 	setBrushColor(GREEN);
 	setPenColor(GREEN);
-	rectangle(x, y - 24, x + (double)(health > 0 ? health : 0) / maxHealth * w, y - 21);
+	rectangle(x - _x, y - 24 - _y, x + (double)(health > 0 ? health : 0) / maxHealth * 40 - _x, y - 21 - _y);
 }
 
 BumpBox Entity::getBox()
 {
-	return BumpBox{x - w / 2, y - h / 2, w, h};
+	return BumpBox{x + box.x, y + box.y, box.w, box.h};
 }
 
-void Entity::showBox(double _x, double _y)
-{
-	setPenColor(BLUE);
-	setBrushColor(BLUE);
-	rectangle(x - _x + (W_Width - w) / 2, y - _y + (W_Height - h) / 2, x - _x + (W_Width + w) / 2, y - _y + (W_Height + h) / 2);
-}
-
-ACL_Image* Entity::getImgPtr()
+ImgForm Entity::getImg()
 {
 	return img;
 }
 
-void Entity::setImgPtr(const char *path)
+void Entity::setBox(const BumpBox &_box)
 {
-	loadImage(path, img);
+	box = _box;
+}
+
+void Entity::setImg(const ImgForm &_img)
+{
+	img = _img;
+}
+
+void Entity::showBox(double _x, double _y)
+{
+	dispHealth(_x, _y);
+	setPenColor(YELLOW);
+	setBrushColor(YELLOW);
+	BumpBox _box = getBox();
+	rectangle(
+			_box.x - _x + W_Width / 2,
+			_box.y - _y + W_Height / 2,
+			_box.x - _x + W_Width / 2 + _box.w,
+			_box.y - _y + W_Height / 2 + _box.h
+			);
+}
+
+void Entity::showDebugInfo(double _x, double _y)
+{
+	showBox(_x, _y);
 }
 
 double dist(Entity *a, Entity *b)

@@ -13,6 +13,7 @@ public:
 	void moveBehavior();
 	void setDir(int d);
 	void reactWith(Entity *e);
+	void showDebugInfo(double _x, double _y);
 private:
 	int dir;
 };

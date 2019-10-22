@@ -11,6 +11,7 @@ public:
 	void reactWith(Entity *e);
 	void moveBehavior();
 	void attackedBehavior(Entity *e);
+	void showDebugInfo(double _x, double _y);
 private:
 	int moveCounter;
 };
