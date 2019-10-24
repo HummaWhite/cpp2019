@@ -30,7 +30,7 @@ public:
 	int facing();
 	virtual void moveBehavior();
 	virtual void reactWith(Entity *e);
-	void attack(Entity *e);
+	virtual void attack(Entity *e);
 	virtual void attackedBehavior(Entity *e);
 	void hurt(int att);
 	virtual void hurtSound();
@@ -55,7 +55,7 @@ private:
 	int type;
 	int health, maxHealth;
 	int att;
-	clock_t lstHurt, lstEffect;
+	int lstHurt, lstEffect;
 	int facingDir;
 	ImgForm img;
 	BumpBox box;

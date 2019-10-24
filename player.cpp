@@ -37,6 +37,9 @@ void Player::reactWith(Entity *e)
 		case C_Wall:
 			moveDir(e->facing());
 			break;
+		case C_Monster:
+			avoid(e);
+			break;
 		default:
 			avoid(e);
 	}
@@ -78,6 +81,21 @@ void Player::useItem()
 		delete item[holding];
 		item[holding] = nullptr;
 	}
+}
+
+void Player::useSword()
+{
+	if (buf != nullptr) return;
+	Sword *swd = new Sword();
+	int dir = facing();
+	swd->setImg(Sword_Img[dir]);
+	swd->setBox(Sword_Box[dir]);
+	swd->setPos(getX(), getY());
+	swd->user = this;
+	buf = swd;
+	ACL_Sound ctmp;
+	loadSound("src/sound/Sword.wav", &ctmp);
+	playSound(ctmp, 0);
 }
 
 void Player::switchItem()

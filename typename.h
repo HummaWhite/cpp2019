@@ -61,8 +61,8 @@ const TypeInfo TP_INFO[12] =
 	{64, 64, 2, 4, 1, C_Monster, "src/moblin0.bmp"},
 	{0, 0, 0, 0, 0, C_None, "src/chuchu.bmp"},
 	{48, 44, 3, 4, 1, C_Monster, "src/slime.bmp"},
-	{0, 0, 0, 0, 0, C_None, ""},
-	{20, 56, 10, 1, 2, C_Bullet, "src/arrow/arrowU.bmp"},
+	{64, 64, 0, 1, 2, C_Armor, "src/sword/sword_I.bmp"},
+	{72, 72, 10, 1, 2, C_Bullet, "src/arrow/Bow.bmp"},
 	{0, 0, 0, 0, 0, C_None, ""},
 	{0, 0, 0, 0, 0, C_None, ""},
 //   w--h--spd_bst--heal--att_bst--img

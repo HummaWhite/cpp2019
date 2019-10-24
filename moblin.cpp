@@ -18,11 +18,7 @@ void Moblin::reactWith(Entity *e)
 			attack(e);
 			avoid(e);
 			break;
-		case C_Armor:
-			avoid(e);
-			break;
 		case C_Bullet:
-			attack(e);
 			avoid(e);
 			break;
 		case C_Wall:
@@ -53,11 +49,14 @@ void Moblin::attackedBehavior(Entity *e)
 	switch (e->category())
 	{
 		case C_Bullet:
+			avoid(e);
+			attack(e);
 			if (target != nullptr) break;
 			target = e->user;
 			setSpeed(3);
 			break;
 		case C_Armor:
+			avoid(e);
 			if (target != nullptr) break;
 			target = e->user;
 			setSpeed(3);

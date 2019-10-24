@@ -7,7 +7,7 @@ Entity::Entity(int tp)
 	att = TP_INFO[tp].att;
 	type = tp;
 	lstHurt = 0;
-	lstEffect = clock() - (clock_t)100 * CLOCKS_PER_SEC;
+	lstEffect = -1000;
 	buf = nullptr;
 	target = nullptr;
 	user = nullptr;
@@ -118,12 +118,13 @@ void Entity::attack(Entity *e)
 
 void Entity::attackedBehavior(Entity *e)
 {
+	avoid(e);
 }
 
 void Entity::hurt(int att)
 {
-	clock_t curTime = clock();
-	if ((double)(curTime - lstHurt) / CLOCKS_PER_SEC < 1.0) return;
+	int curTime = clock();
+	if (curTime - lstHurt < 1000) return;
 	health -= att;
 	if (health < 0) health = 0;
 	lstHurt = curTime;

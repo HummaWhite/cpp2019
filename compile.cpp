@@ -14,6 +14,7 @@ int main()
 		 "arrow.cpp "
 		 "bullet.cpp "
 		 "slime.cpp "
+		 "sword.cpp "
 		 "-std=c++11 -g"
 		);
 	system
@@ -29,6 +30,7 @@ int main()
 		 "arrow.o "
 		 "bullet.o "
 		 "slime.o "
+		 "sword.o "
 		 "-lgdi32 -lole32 -loleaut32 -luuid -lwinmm -lmsimg32 "
 		 "-o test02.exe -g"
 		);

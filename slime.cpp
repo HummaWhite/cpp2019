@@ -30,8 +30,8 @@ void Slime::reactWith(Entity *e)
 			moveDir(e->facing());
 			break;
 		case C_Bullet:
-			attack(e);
 			avoid(e);
+			attack(e);
 		default:
 			avoid(e);
 	}

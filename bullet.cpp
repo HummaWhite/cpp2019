@@ -15,6 +15,14 @@ void Bullet::setDir(int d)
 	dir = d;
 }
 
+void Bullet::attack(Entity *e)
+{
+	if (e == nullptr) return;
+	e->hurt(TP_INFO[getType()].att);
+	hurt(1000);
+	e->attackedBehavior(this);
+}
+
 void Bullet::reactWith(Entity *e)
 {
 	if (!judgeCollision(this, e)) return;
@@ -30,8 +38,8 @@ void Bullet::reactWith(Entity *e)
 			attack(e);
 			break;
 		case C_Wall:
+			hurt(1000);
 			avoid(e);
-			hurt(TP_INFO[getType()].health);
 			break;
 	}
 }

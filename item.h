@@ -21,7 +21,7 @@ public:
 private:
 	int type;
 	Entity *owner;
-	ACL_Image *img;
+	ACL_Image itImg;
 };
 
 #endif

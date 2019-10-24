@@ -6,6 +6,7 @@
 #include "typename.h"
 #include "entity.h"
 #include "item.h"
+#include "sword.h"
 
 #define PLAYER_MAX_ITEM 5
 
@@ -59,9 +60,9 @@ const ImgForm Player_Img[4][9] =
 
 const BumpBox Player_Box[4] =
 {
-	{-40, -32, 68, 68},
+	{-28, -32, 56, 64},
 	{-32, -32, 64, 64},
-	{-28, -32, 68, 68},
+	{-28, -32, 56, 64},
 	{-32, -32, 64, 64}
 };
 
@@ -75,6 +76,7 @@ public:
 	void getItem(int tp);
 	void getItem(Item *it);
 	void useItem();
+	void useSword();
 	void switchItem();
 	bool haveItem(int tp);
 	void turn(int dir);

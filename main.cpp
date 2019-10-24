@@ -19,15 +19,16 @@ Player *player;
 ACL_Image BG_IMG;
 ACL_Sound BGM, TMP;
 
-void printItemBox()
+void paintSprite(Entity *e)
 {
-	setPenColor(RGB(103, 136, 168));
-	setPenWidth(20);
-	setBrushColor(WHITE);
-	rectangle(40, 520, 200, 680);
+	if (e == nullptr) return;
+	if (DEBUG_SHOWBOX) e->showDebugInfo(player->getX(), player->getY());
+	if (abs(e->getX() - player->getX()) > W_Width + 160) return;
+	if (abs(e->getY() - player->getY()) > W_Height + 160) return;
+	e->showImg(player->getX(), player->getY());
 }
 
-void printEvent()
+void paintEvent()
 {
 	beginPaint();
 	clearDevice();
@@ -38,15 +39,21 @@ void printEvent()
 			Map_Width,
 			Map_Height
 			);
-	for (int i = 0; i < MAX_SPRITES; i++)
+	if (sprite[0] != nullptr)
+	{
+		if (sprite[0]->facing() == UP) paintSprite(sprite[0]);
+	}
+	for (int i = 1; i < MAX_SPRITES; i++)
 	{
 		if (player->isDead()) continue;
-		if (sprite[i] == nullptr) continue;
-		sprite[i]->showImg(player->getX(), player->getY());
-		if (DEBUG_SHOWBOX) sprite[i]->showDebugInfo(player->getX(), player->getY());
+		paintSprite(sprite[i]);
 	}
-	player->showImg();
 	if (DEBUG_SHOWBOX) player->showDebugInfo(player->getX(), player->getY());
+	player->showImg();
+	if (sprite[0] != nullptr)
+	{
+		if (sprite[0]->facing() != UP) paintSprite(sprite[0]);
+	}
 	endPaint();
 }
 
@@ -67,27 +74,31 @@ void keyboardEvent(int key, int event)
 				DEBUG_SHOWBOX ^= 1;
 				break;
 			case 'Z':
-				printf("get heart\n");
 				player->getItem(I_Heart);
 				break;
 			case 'C':
-				printf("use\n");
 				player->useItem();
+				break;
+			case VK_SPACE:
+				if (keyPressing[VK_SPACE] || player->buf != nullptr || sprite[0] != nullptr) break;
+				player->useSword();
 				break;
 			case VK_SHIFT:
 				printf("switch\n");
 				player->switchItem();
 				break;
-			case 'X':
-				printf("get arrow\n");
-				if (player->haveItem(A_Arrow)) break;
-				Arrow *tmp = new Arrow();
-				player->getItem(tmp);
-				break;
 		}
 		keyPressing[key] = 1;
 	}
 	if (event == KEY_UP) keyPressing[key] = 0;
+	if (!keyPressing[VK_SPACE])
+	{
+		if (sprite[0] != nullptr)
+		{
+			delete sprite[0];
+			sprite[0] = player->buf = nullptr;
+		}
+	}
 }
 
 int ddir = 0, dieCounter = 0, dying = 0;
@@ -127,9 +138,18 @@ void movePlayer()
 
 int lHealthCounter;
 
+int frameCounter = 0, curTime = 0;
+
 void nextEvent(int id)
 {
-	printEvent();
+	frameCounter++;
+	if (clock() - curTime >= 1000)
+	{
+		curTime = clock();
+		printf("%d\n", frameCounter);
+		frameCounter = 0;
+	}
+	paintEvent();
 	if (player->isDead())
 	{
 		diePlayer();
@@ -138,14 +158,18 @@ void nextEvent(int id)
 	player->checkHealth();
 	if (player->buf != nullptr)
 	{
-		for (int i = 0; i < MAX_SPRITES; i++)
+		if (player->buf->category() != C_Armor)
 		{
-			if (sprite[i] == nullptr)
+			for (int i = 1; i < MAX_SPRITES; i++)
 			{
-				sprite[i] = player->buf;
-				player->buf = nullptr;
+				if (sprite[i] == nullptr)
+				{
+					sprite[i] = player->buf;
+					player->buf = nullptr;
+				}
 			}
 		}
+		else sprite[0] = player->buf;
 	}
 	for (int i = 0; i < MAX_SPRITES; i++)
 	{
@@ -180,11 +204,11 @@ void nextEvent(int id)
 
 void initSprite()
 {
-	sprite[0] = new Entity(-40, -40, Map_Width + 40, 0, DOWN);
-	sprite[1] = new Entity(-40, Map_Height, Map_Width + 40, Map_Height + 40, UP);
-	sprite[2] = new Entity(-40, -40, 0, Map_Height + 40, RIGHT);
-	sprite[3] = new Entity(Map_Width, -40, Map_Width + 40, Map_Height + 40, LEFT);
-	for (int i = 4; i < 60; i++)
+	sprite[1] = new Entity(-40, -40, Map_Width + 40, 0, DOWN);
+	sprite[2] = new Entity(-40, Map_Height, Map_Width + 40, Map_Height + 40, UP);
+	sprite[3] = new Entity(-40, -40, 0, Map_Height + 40, RIGHT);
+	sprite[4] = new Entity(Map_Width, -40, Map_Width + 40, Map_Height + 40, LEFT);
+	for (int i = 5; i < 60; i++)
 	{
 		sprite[i] = new Moblin();
 		sprite[i]->setPos(rand() % (Map_Width) / 2, rand() % (Map_Height / 2));
@@ -196,6 +220,8 @@ void initSprite()
 	}
 	player = new Player();
 	player->setPos(W_Width / 2, W_Height / 2);
+	Arrow *tmp = new Arrow();
+	player->getItem(tmp);
 }
 
 int Setup()

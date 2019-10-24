@@ -2,15 +2,13 @@
 
 Item::Item(int tp)
 {
-	img = (ACL_Image*)malloc(sizeof(ACL_Image));
-	loadImage(TP_INFO[tp].imgPath, img);
+	loadImage(TP_INFO[tp].imgPath, &itImg);
 	type = tp;
 	owner = nullptr;
 }
 
 Item::~Item()
 {
-	freeImage(img);
 }
 
 int Item::getType()
@@ -41,8 +39,8 @@ void Item::effect()
 void Item::display()
 {
 	setPenWidth(4);
-	setPenColor(RED);
-	setBrushColor(WHITE);
-	rectangle(420, 40, 436 + TP_INFO[type].w, 56 + TP_INFO[type].h);
-	putImageTransparent(img, 428, 48, TP_INFO[type].w, TP_INFO[type].h, BLUE);
+	setPenColor(RGB(220, 160, 0));
+	setBrushColor(BLACK);
+	rectangle(1080, 40, 1096 + TP_INFO[type].w, 56 + TP_INFO[type].h);
+	putImageTransparent(&itImg, 1088, 48, TP_INFO[type].w, TP_INFO[type].h, BLUE);
 }
