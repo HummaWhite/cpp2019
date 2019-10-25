@@ -19,7 +19,7 @@ Entity::Entity(double x1, double y1, double x2, double y2, int dir)
 	x = (x1 + x2) / 2, y = (y1 + y2) / 2;
 	setBox(BumpBox{x1 - x, y1 - y, x2 - x1, y2 - y1});
 	facingDir = dir;
-	type = B_Wall;
+	type = M_Wall;
 }
 
 Entity::~Entity()
@@ -168,14 +168,14 @@ ACL_Image tmp;
 
 void Entity::showImg(double _x, double _y)
 {
-	if (type == B_Wall) return;
+	if (type == M_Wall) return;
 	loadImage(img.path, &tmp);
 	putImageTransparent(&tmp, x - _x + W_Width / 2 + img.x, y - _y + W_Height / 2 + img.y, img.w, img.h, BLUE);
 }
 
 void Entity::showImg()
 {
-	if (type == B_Wall) return;
+	if (type == M_Wall) return;
 	showImg(W_Width / 2, W_Height / 2);
 }
 

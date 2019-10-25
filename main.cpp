@@ -8,16 +8,41 @@
 #include "slime.h"
 #include "arrow.h"
 #include "item.h"
+#include "animation.h"
 
 const int Frame_Rate = 75;
 
 bool keyPressing[200] = {0};
 bool DEBUG_SHOWBOX = 0;
 
-Entity *sprite[MAX_SPRITES];
+Entity *sprite[MAX_SPRITES] = {nullptr};
 Player *player;
 ACL_Image BG_IMG;
 ACL_Sound BGM, TMP;
+Animation *anim[MAX_ANIM] = {nullptr};
+
+void newAnim(AnimForm a, double x, double y)
+{
+	for (int i = 0; i < MAX_ANIM; i++)
+	{
+		if (anim[i] == nullptr)
+		{
+			anim[i] = new Animation(a, x, y);
+			return;
+		}
+	}
+}
+
+void paintAnim()
+{
+	for (int i = 0; i < MAX_ANIM; i++)
+	{
+		if (anim[i] != nullptr)
+		{
+			anim[i]->show(player->getX(), player->getY());
+		}
+	}
+}
 
 void paintSprite(Entity *e)
 {
@@ -54,6 +79,7 @@ void paintEvent()
 	{
 		if (sprite[0]->facing() != UP) paintSprite(sprite[0]);
 	}
+	paintAnim();
 	endPaint();
 }
 
@@ -166,6 +192,7 @@ void nextEvent(int id)
 				{
 					sprite[i] = player->buf;
 					player->buf = nullptr;
+					break;
 				}
 			}
 		}
@@ -180,6 +207,7 @@ void nextEvent(int id)
 			{
 				case C_Monster:
 					loadSound("src/sound/Enemy_Kill.wav", &TMP);
+					newAnim(Monster_Death, sprite[i]->getX(), sprite[i]->getY());
 					break;
 				default:
 					loadSound("", &TMP);
@@ -200,6 +228,18 @@ void nextEvent(int id)
 		sprite[i]->moveBehavior();
 	}
 	movePlayer();
+	for (int i = 0; i < MAX_ANIM; i++)
+	{
+		if (anim[i] != nullptr)
+		{
+			if (anim[i]->finished())
+			{
+				delete anim[i];
+				anim[i] = nullptr;
+			}
+			else anim[i]->nextFrame();
+		}
+	}
 }
 
 void initSprite()

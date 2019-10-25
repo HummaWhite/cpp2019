@@ -14,10 +14,11 @@ void Arrow::effect()
 	if (host->buf != nullptr) return;
 	Bullet *tmp = new Bullet(A_Arrow);
 	int dir = host->facing();
-	tmp->setDir(dir);
-	tmp->setPos(host->getX(), host->getY());
 	tmp->setImg(Arrow_Img[dir]);
 	tmp->setBox(Arrow_Box[dir]);
+	tmp->setCpoint(host->getX(), host->getY());
+	tmp->setTrail(dir * Pi / 2, 0, 0, TP_INFO[A_Arrow].speed);
+	tmp->setPos(host->getX(), host->getY());
 	tmp->user = host;
 	host->buf = tmp;
 	loadSound("src/sound/Arrow_Shoot.wav", &stmp);

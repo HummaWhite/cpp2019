@@ -7,12 +7,19 @@ Bullet::Bullet(int tp):
 
 void Bullet::moveBehavior()
 {
-	moveDir(dir);
+	setPos(cx + r * cos(t), cy - r * sin(t));
+	t += dt, r += dr;
 }
 
-void Bullet::setDir(int d)
+void Bullet::setCpoint(double _x, double _y)
 {
-	dir = d;
+	cx = _x, cy = _y;
+}
+
+void Bullet::setTrail(double _t, double _dt, double _r, double _dr)
+{
+	t = _t, dt = _dt;
+	r = _r, dr = _dr;
 }
 
 void Bullet::attack(Entity *e)

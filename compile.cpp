@@ -2,6 +2,7 @@
 
 int main()
 {
+	system("gcc -c acllib.c -std=c11 -g");
 	system
 		(
 		 "g++ -c "
@@ -15,6 +16,7 @@ int main()
 		 "bullet.cpp "
 		 "slime.cpp "
 		 "sword.cpp "
+		 "animation.cpp "
 		 "-std=c++11 -g"
 		);
 	system
@@ -31,6 +33,7 @@ int main()
 		 "bullet.o "
 		 "slime.o "
 		 "sword.o "
+		 "animation.o "
 		 "-lgdi32 -lole32 -loleaut32 -luuid -lwinmm -lmsimg32 "
 		 "-o test02.exe -g"
 		);
