@@ -65,19 +65,3 @@ void Moblin::attackedBehavior(Entity *e)
 			avoid(e);
 	}
 }
-
-void Moblin::showDebugInfo(double _x, double _y)
-{
-	if (target != nullptr)
-	{
-		setPenColor(RED);
-		setPenWidth(2);
-		line(
-				getX() - _x + W_Width / 2,
-				getY() - _y + W_Height / 2,
-				target->getX() - _x + W_Width / 2,
-				target->getY() - _y + W_Height / 2
-			);
-	}
-	showBox(_x, _y);
-}

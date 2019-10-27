@@ -9,6 +9,8 @@
 #include "arrow.h"
 #include "item.h"
 #include "animation.h"
+#include "cucco.h"
+#include "bari.h"
 
 const int Frame_Rate = 75;
 
@@ -66,7 +68,7 @@ void paintEvent()
 			);
 	if (sprite[0] != nullptr)
 	{
-		if (sprite[0]->facing() == UP) paintSprite(sprite[0]);
+		if (sprite[0]->facing() == UP || sprite[0]->facing() == RIGHT) paintSprite(sprite[0]);
 	}
 	for (int i = 1; i < MAX_SPRITES; i++)
 	{
@@ -77,7 +79,7 @@ void paintEvent()
 	player->showImg();
 	if (sprite[0] != nullptr)
 	{
-		if (sprite[0]->facing() != UP) paintSprite(sprite[0]);
+		if (sprite[0]->facing() == DOWN || sprite[0]->facing() == LEFT) paintSprite(sprite[0]);
 	}
 	paintAnim();
 	endPaint();
@@ -203,16 +205,18 @@ void nextEvent(int id)
 		if (sprite[i] == nullptr) continue;
 		if (sprite[i]->isDead())
 		{
-			switch (sprite[i]->category())
+			switch (sprite[i]->getType())
 			{
-				case C_Monster:
-					loadSound("src/sound/Enemy_Kill.wav", &TMP);
+				case M_Moblin:
 					newAnim(Monster_Death, sprite[i]->getX(), sprite[i]->getY());
 					break;
-				default:
-					loadSound("", &TMP);
+				case M_Bari:
+					newAnim(Monster_Death, sprite[i]->getX(), sprite[i]->getY());
+					break;
+				case M_Slime:
+					newAnim(Explode, sprite[i]->getX(), sprite[i]->getY());
+					break;
 			}
-			playSound(TMP, 0);
 			delete sprite[i];
 			sprite[i] = nullptr;
 			continue;
@@ -221,7 +225,15 @@ void nextEvent(int id)
 		player->reactWith(sprite[i]);
 		for (int j = i + 1; j < MAX_SPRITES; j++)
 		{
-			if (sprite[j] == nullptr) continue;
+			if (sprite[j] == nullptr)
+			{
+				if (sprite[i]->buf != nullptr)
+				{
+					sprite[j] = sprite[i]->buf;
+					sprite[i]->buf = nullptr;
+				}
+				continue;
+			}
 			sprite[i]->reactWith(sprite[j]);
 			sprite[j]->reactWith(sprite[i]);
 		}
@@ -248,16 +260,27 @@ void initSprite()
 	sprite[2] = new Entity(-40, Map_Height, Map_Width + 40, Map_Height + 40, UP);
 	sprite[3] = new Entity(-40, -40, 0, Map_Height + 40, RIGHT);
 	sprite[4] = new Entity(Map_Width, -40, Map_Width + 40, Map_Height + 40, LEFT);
-	for (int i = 5; i < 60; i++)
+	for (int i = 5; i < 35; i++)
 	{
 		sprite[i] = new Moblin();
 		sprite[i]->setPos(rand() % (Map_Width) / 2, rand() % (Map_Height / 2));
 	}
-	for (int i = 60; i < 100; i++)
+	for (int i = 35; i < 65; i++)
 	{
 		sprite[i] = new Slime();
 		sprite[i]->setPos(rand() % (Map_Width) / 2, rand() % (Map_Height / 2));
 	}
+	for (int i = 65; i < 85; i++)
+	{
+		sprite[i] = new Cucco();
+		sprite[i]->setPos(rand() % (Map_Width) / 2, rand() % (Map_Height / 2));
+	}
+	for (int i = 85; i < 100; i++)
+	{
+		sprite[i] = new Bari();
+		sprite[i]->setPos(rand() % (Map_Width) / 2, rand() % (Map_Height / 2));
+	}
+	sprite[99]->setPos(20, 20);
 	player = new Player();
 	player->setPos(W_Width / 2, W_Height / 2);
 	Arrow *tmp = new Arrow();
@@ -266,6 +289,7 @@ void initSprite()
 
 int Setup()
 {
+	srand(time(NULL));
 	initSprite();
 	loadImage("src/light_world.jpg", &BG_IMG);
 	loadSound("src/sound/LightWorld.mid", &BGM);

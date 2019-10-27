@@ -20,6 +20,7 @@ Entity::Entity(double x1, double y1, double x2, double y2, int dir)
 	setBox(BumpBox{x1 - x, y1 - y, x2 - x1, y2 - y1});
 	facingDir = dir;
 	type = M_Wall;
+	buf = target = user = nullptr;
 }
 
 Entity::~Entity()
@@ -71,7 +72,7 @@ void Entity::moveDir(double dx, double dy)
 
 void Entity::moveDir(int dir)
 {
-	moveDir(!(dir & 1) ? 1 - dir : 0, dir & 1 ? dir - 2 : 0);
+	moveDir(!(dir & 1) ? 1 - dir : 0, dir & 1 ? 2 - dir : 0);
 }
 
 void Entity::moveToward(double _x, double _y)
@@ -137,7 +138,8 @@ void Entity::hurtSound()
 	switch (category())
 	{
 		case C_Monster:
-			loadSound("src/sound/Enemy_Hit.wav", &stmp);
+			if (getType() != N_Cucco) loadSound("src/sound/Enemy_Hit.wav", &stmp);
+			else loadSound("src/sound/Cucco.wav", &stmp);
 			break;
 		case C_Player:
 			loadSound("src/sound/Link_Hurt.wav", &stmp);
@@ -227,6 +229,27 @@ void Entity::showBox(double _x, double _y)
 
 void Entity::showDebugInfo(double _x, double _y)
 {
+	if (target != nullptr)
+	{
+		setPenColor(RED);
+		setPenWidth(2);
+		line(
+				getX() - _x + W_Width / 2,
+				getY() - _y + W_Height / 2,
+				target->getX() - _x + W_Width / 2,
+				target->getY() - _y + W_Height / 2
+			);
+	}
+	setPenColor(BLUE);
+	if (user != nullptr)
+	{
+		line(
+				getX() - _x + W_Width / 2,
+				getY() - _y + W_Height / 2,
+				user->getX() - _x + W_Width / 2,
+				user->getY() - _y + W_Height / 2
+			);
+	}
 	showBox(_x, _y);
 }
 

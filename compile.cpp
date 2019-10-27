@@ -16,6 +16,8 @@ int main()
 		 "bullet.cpp "
 		 "slime.cpp "
 		 "sword.cpp "
+		 "cucco.cpp "
+		 "bari.cpp "
 		 "animation.cpp "
 		 "-std=c++11 -g"
 		);
@@ -33,6 +35,8 @@ int main()
 		 "bullet.o "
 		 "slime.o "
 		 "sword.o "
+		 "cucco.o "
+		 "bari.o "
 		 "animation.o "
 		 "-lgdi32 -lole32 -loleaut32 -luuid -lwinmm -lmsimg32 "
 		 "-o test02.exe -g"

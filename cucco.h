@@ -1,18 +1,23 @@
-#ifndef MOBLIN_H
-#define MOBLIN_H
+#ifndef CUCCO_H
+#define CUCCO_H
 
+#include "acllib.h"
+#include "typename.h"
 #include "entity.h"
 
-class Moblin:
+class Cucco:
 	public Entity
 {
 public:
-	Moblin();
+	Cucco();
 	void reactWith(Entity *e);
 	void moveBehavior();
 	void attackedBehavior(Entity *e);
 private:
+	double dx, dy;
 	int moveCounter;
+	int hitTime;
+	bool rage;
 };
 
 #endif

@@ -5,6 +5,7 @@ Animation::Animation(AnimForm a, double _x, double _y)
 	anim = a;
 	curFrame = fCounter = 0;
 	x = _x, y = _y;
+	sounded = 0;
 }
 
 void Animation::nextFrame()
@@ -36,4 +37,9 @@ void Animation::show(double _x, double _y)
 			anim.h,
 			BLUE
 			);
+	if (sounded) return;
+	ACL_Sound tmp;
+	loadSound(anim.sound, &tmp);
+	playSound(tmp, 0);
+	sounded = 1;
 }

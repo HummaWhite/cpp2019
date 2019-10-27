@@ -18,9 +18,10 @@ enum Type
 	A_Bomb,
 	A_Boomerang,
 	I_Heart,
-	I_BlueJ,
+	M_Bari,
 	M_Wall,
-	B_FireBall
+	B_FireBall,
+	N_Cucco
 };
 
 enum Class_Category
@@ -31,12 +32,13 @@ enum Class_Category
 	C_Armor,
 	C_Bullet,
 	C_Wall,
-	C_Item
+	C_Item,
+	C_NPC
 };
 
 enum Direction
 {
-	RIGHT, UP, LEFT, DOWN
+	RIGHT, DOWN, LEFT, UP
 };
 
 struct TypeInfo
@@ -55,7 +57,7 @@ struct ImgForm
 	double x, y, w, h;
 };
 
-const TypeInfo TP_INFO[12] =
+const TypeInfo TP_INFO[] =
 {//  w--h--speed--health--att--category--img
 	{0, 0, 0, 0, 0, C_None, ""},
 	{52, 64, 4, 40, 2, C_Player, "src/player/walkD.bmp"},
@@ -67,21 +69,13 @@ const TypeInfo TP_INFO[12] =
 	{0, 0, 0, 0, 0, C_None, ""},
 //   w--h--spd_bst--heal--att_bst--img
 	{32, 28, 0, 16, 0, C_Item, "src/heart/heart.bmp"},
-	{0, 0, 0, 0, 0, C_None, ""},
+	{0, 0, 3, 8, 1, C_Monster, ""},
 	{0, 0, 0, 100, 200, C_Wall, ""},
-	{28, 28, 10, 1, 3, C_Bullet, "src/fireball/big.bmp"}
+	{28, 28, 10, 1, 1, C_Bullet, "src/fireball/big.bmp"},
+	{0, 0, 2, 1000, 0, C_Monster, ""}
 };
 
-const char soundPath[15][40]=
-{
-	"src/sound/DarkWorld.mid",
-	"src/sound/Tal Tal Heights.wav",
-	"src/sound/Enemy_Hit.wav",
-	"src/sound/Enemy_Kill.wav",
-	"src/sound/Arrow_Shoot.wav"
-};
-
-const int arrowKey[4] = {VK_RIGHT, VK_UP, VK_LEFT, VK_DOWN};
+const int arrowKey[4] = {VK_RIGHT, VK_DOWN, VK_LEFT, VK_UP};
 const int MAX_SPRITES = 200;
 const int W_Width = 1280, W_Height = 720;
 const int Map_Width = 16384, Map_Height = 16384;

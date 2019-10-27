@@ -7,8 +7,9 @@ Bullet::Bullet(int tp):
 
 void Bullet::moveBehavior()
 {
-	setPos(cx + r * cos(t), cy - r * sin(t));
+	setPos(cx + r * cos(t), cy + r * sin(t));
 	t += dt, r += dr;
+	if (dist(this, user) > 2000) hurt(1000);
 }
 
 void Bullet::setCpoint(double _x, double _y)
@@ -49,20 +50,4 @@ void Bullet::reactWith(Entity *e)
 			avoid(e);
 			break;
 	}
-}
-
-void Bullet::showDebugInfo(double _x, double _y)
-{
-	setPenColor(RED);
-	setPenWidth(2);
-	if (user != nullptr)
-	{
-		line(
-				getX() - _x + W_Width / 2,
-				getY() - _y + W_Height / 2,
-				user->getX() - _x + W_Width / 2,
-				user->getY() - _y + W_Height / 2
-			);
-	}
-	showBox(_x, _y);
 }

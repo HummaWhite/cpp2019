@@ -24,15 +24,15 @@ const ImgForm Player_Img[4][9] =
 		{"src/player/R8.bmp", -40, -64, 68, 96}
 	},
 	{
-		{"src/player/U0.bmp", -32, -64, 64, 96},
-		{"src/player/U1.bmp", -32, -64, 64, 96},
-		{"src/player/U2.bmp", -32, -64, 64, 96},
-		{"src/player/U3.bmp", -32, -64, 64, 96},
-		{"src/player/U4.bmp", -32, -64, 64, 96},
-		{"src/player/U5.bmp", -32, -64, 64, 96},
-		{"src/player/U6.bmp", -32, -64, 64, 96},
-		{"src/player/U7.bmp", -32, -64, 64, 96},
-		{"src/player/U8.bmp", -32, -64, 64, 96}
+		{"src/player/D0.bmp", -32, -64, 64, 96},
+		{"src/player/D1.bmp", -32, -64, 64, 96},
+		{"src/player/D2.bmp", -32, -64, 64, 96},
+		{"src/player/D3.bmp", -32, -64, 64, 96},
+		{"src/player/D4.bmp", -32, -64, 64, 96},
+		{"src/player/D5.bmp", -32, -64, 64, 96},
+		{"src/player/D6.bmp", -32, -64, 64, 96},
+		{"src/player/D7.bmp", -32, -64, 64, 96},
+		{"src/player/D8.bmp", -32, -64, 64, 96}
 	},
 	{
 		{"src/player/L0.bmp", -28, -64, 68, 96},
@@ -46,15 +46,15 @@ const ImgForm Player_Img[4][9] =
 		{"src/player/L8.bmp", -28, -64, 68, 96}
 	},
 	{
-		{"src/player/D0.bmp", -32, -64, 64, 96},
-		{"src/player/D1.bmp", -32, -64, 64, 96},
-		{"src/player/D2.bmp", -32, -64, 64, 96},
-		{"src/player/D3.bmp", -32, -64, 64, 96},
-		{"src/player/D4.bmp", -32, -64, 64, 96},
-		{"src/player/D5.bmp", -32, -64, 64, 96},
-		{"src/player/D6.bmp", -32, -64, 64, 96},
-		{"src/player/D7.bmp", -32, -64, 64, 96},
-		{"src/player/D8.bmp", -32, -64, 64, 96}
+		{"src/player/U0.bmp", -32, -64, 64, 96},
+		{"src/player/U1.bmp", -32, -64, 64, 96},
+		{"src/player/U2.bmp", -32, -64, 64, 96},
+		{"src/player/U3.bmp", -32, -64, 64, 96},
+		{"src/player/U4.bmp", -32, -64, 64, 96},
+		{"src/player/U5.bmp", -32, -64, 64, 96},
+		{"src/player/U6.bmp", -32, -64, 64, 96},
+		{"src/player/U7.bmp", -32, -64, 64, 96},
+		{"src/player/U8.bmp", -32, -64, 64, 96}
 	}
 };
 
