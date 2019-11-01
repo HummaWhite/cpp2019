@@ -25,8 +25,8 @@ int main()
 		(
 		 "g++ "
 		 "acllib.o "
-		 "entity.o "
 		 "main.o "
+		 "entity.o "
 		 "player.o "
 		 "bumpbox.o "
 		 "item.o "

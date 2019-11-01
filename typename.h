@@ -41,6 +41,18 @@ enum Direction
 	RIGHT, DOWN, LEFT, UP
 };
 
+enum Region
+{
+	Over_World, Village, Woods
+};
+
+const char BG_Music[3][40] =
+{
+	"src/sound/LightWorld.mid",
+	"src/sound/Kakariko342.mid",
+	"src/sound/LostWoods.mid"
+};
+
 struct TypeInfo
 {
 	double w, h;
@@ -64,7 +76,7 @@ const TypeInfo TP_INFO[] =
 	{64, 64, 2, 4, 1, C_Monster, "src/moblin0.bmp"},
 	{48, 44, 3, 4, 1, C_Monster, "src/slime.bmp"},
 	{64, 64, 0, 1, 2, C_Armor, "src/sword/sword_I.bmp"},
-	{72, 72, 10, 1, 2, C_Bullet, "src/arrow/Bow.bmp"},
+	{72, 72, 16, 1, 2, C_Bullet, "src/arrow/Bow.bmp"},
 	{0, 0, 0, 0, 0, C_None, ""},
 	{0, 0, 0, 0, 0, C_None, ""},
 //   w--h--spd_bst--heal--att_bst--img

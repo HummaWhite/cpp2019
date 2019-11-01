@@ -45,6 +45,10 @@ void Bullet::reactWith(Entity *e)
 			if (user->category() == C_Monster) break;
 			attack(e);
 			break;
+		case C_Armor:
+			hurt(1000);
+			avoid(e);
+			break;
 		case C_Wall:
 			hurt(1000);
 			avoid(e);

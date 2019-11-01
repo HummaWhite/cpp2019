@@ -21,6 +21,7 @@ Entity::Entity(double x1, double y1, double x2, double y2, int dir)
 	facingDir = dir;
 	type = M_Wall;
 	buf = target = user = nullptr;
+	maxHealth = health = 1000;
 }
 
 Entity::~Entity()

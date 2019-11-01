@@ -10,6 +10,7 @@ struct AnimForm
 	double w, h;
 	const char *sound;
 	const char *img[20];
+	~AnimForm();
 };
 
 const AnimForm Monster_Death =

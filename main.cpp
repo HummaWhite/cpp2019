@@ -20,8 +20,24 @@ bool DEBUG_SHOWBOX = 0;
 Entity *sprite[MAX_SPRITES] = {nullptr};
 Player *player;
 ACL_Image BG_IMG;
-ACL_Sound BGM, TMP;
+ACL_Sound BGM, TMP, curRegion;
 Animation *anim[MAX_ANIM] = {nullptr};
+
+void switchBGM(int id)
+{
+	stopSound(BGM);
+	loadSound(BG_Music[id], &BGM);
+	playSound(BGM, -1);
+}
+
+int inRegion()
+{
+	double x = player->getX();
+	double y = player->getY();
+	if (x < 4096 && y < 4096) return Woods;
+	else if (x < 4096 && y >= 6144 && y < 10240) return Village;
+	else return Over_World;
+}
 
 void newAnim(AnimForm a, double x, double y)
 {
@@ -95,8 +111,9 @@ void keyboardEvent(int key, int event)
 	{
 		switch (key)
 		{
-			case 'K':
-				player->hurt(20);
+			case 'Q':
+				newAnim(Explode, player->getX() + rand() % 40 - 20, player->getY() + rand() % 40 - 20);
+				player->hurt(8);
 				break;
 			case 'B':
 				DEBUG_SHOWBOX ^= 1;
@@ -136,10 +153,10 @@ void diePlayer()
 	dieCounter++;
 	if (dieCounter == 2)
 	{
-		dieCounter = 0;
 		ddir = (ddir - 1 + 4) % 4;
 		player->turn(ddir);
 		player->turn(-1);
+		dieCounter = 0;
 	}
 	if (!dying)
 	{
@@ -177,7 +194,24 @@ void nextEvent(int id)
 		printf("%d\n", frameCounter);
 		frameCounter = 0;
 	}
+	if (inRegion() != curRegion)
+	{
+		curRegion = inRegion();
+		switchBGM(curRegion);
+	}
 	paintEvent();
+	for (int i = 0; i < MAX_ANIM; i++)
+	{
+		if (anim[i] != nullptr)
+		{
+			if (anim[i]->finished())
+			{
+				delete anim[i];
+				anim[i] = nullptr;
+			}
+			else anim[i]->nextFrame();
+		}
+	}
 	if (player->isDead())
 	{
 		diePlayer();
@@ -240,18 +274,6 @@ void nextEvent(int id)
 		sprite[i]->moveBehavior();
 	}
 	movePlayer();
-	for (int i = 0; i < MAX_ANIM; i++)
-	{
-		if (anim[i] != nullptr)
-		{
-			if (anim[i]->finished())
-			{
-				delete anim[i];
-				anim[i] = nullptr;
-			}
-			else anim[i]->nextFrame();
-		}
-	}
 }
 
 void initSprite()
@@ -292,8 +314,8 @@ int Setup()
 	srand(time(NULL));
 	initSprite();
 	loadImage("src/light_world.jpg", &BG_IMG);
-	loadSound("src/sound/LightWorld.mid", &BGM);
-	playSound(BGM, 100);
+	switchBGM(inRegion());
+	curRegion = inRegion();
 	initWindow("test02", DEFAULT, DEFAULT, W_Width, W_Height);
 	registerTimerEvent(nextEvent);
 	registerMouseEvent(mouseEvent);

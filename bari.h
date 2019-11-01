@@ -16,6 +16,9 @@ public:
 	void surround(Entity *e);
 private:
 	int behaveCounter;
+	double surroundDist;
+	double theta, dt;
+	int cdist, crot;
 };
 
 #endif

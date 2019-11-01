@@ -1,5 +1,9 @@
 #include "animation.h"
 
+AnimForm::~AnimForm()
+{
+}
+
 Animation::Animation(AnimForm a, double _x, double _y)
 {
 	anim = a;
@@ -38,8 +42,8 @@ void Animation::show(double _x, double _y)
 			BLUE
 			);
 	if (sounded) return;
-	ACL_Sound tmp;
-	loadSound(anim.sound, &tmp);
-	playSound(tmp, 0);
+	ACL_Sound astmp;
+	loadSound(anim.sound, &astmp);
+	playSound(astmp, 0);
 	sounded = 1;
 }
