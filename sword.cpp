@@ -1,8 +1,10 @@
 #include "sword.h"
 
-Sword::Sword():
+Sword::Sword(Entity *host):
 	Entity(A_Sword)
 {
+	user = host;
+	moveBehavior();
 }
 
 void Sword::moveBehavior()

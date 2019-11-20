@@ -3,6 +3,7 @@
 
 #include "acllib.h"
 #include "typename.h"
+#include "sound.h"
 
 struct AnimForm
 {
@@ -52,8 +53,12 @@ struct Animation
 	AnimForm anim;
 	void nextFrame();
 	bool finished();
-	void show(double _x, double _y);
+	void show();
 	bool sounded;
 };
+
+extern Animation* anim[MAX_ANIM];
+
+extern void newAnim(AnimForm a, double x, double y);
 
 #endif

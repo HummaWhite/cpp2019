@@ -1,5 +1,7 @@
 #include "animation.h"
 
+Animation* anim[MAX_ANIM] = {nullptr};
+
 AnimForm::~AnimForm()
 {
 }
@@ -29,21 +31,31 @@ bool Animation::finished()
 
 ACL_Image atmp;
 
-void Animation::show(double _x, double _y)
+void Animation::show()
 {
 	if (curFrame == anim.len) return;
 	loadImage(anim.img[curFrame], &atmp);
 	putImageTransparent(
 			&atmp,
-			x - anim.w / 2 - _x + W_Width / 2,
-			y - anim.h / 2 - _y + W_Height / 2,
+			x - anim.w / 2 - playerPosX + W_Width / 2,
+			y - anim.h / 2 - playerPosY + W_Height / 2,
 			anim.w,
 			anim.h,
 			BLUE
 			);
 	if (sounded) return;
-	ACL_Sound astmp;
-	loadSound(anim.sound, &astmp);
-	playSound(astmp, 0);
+	sound(anim.sound, 0);
 	sounded = 1;
+}
+
+void newAnim(AnimForm a, double x, double y)
+{
+	for (int i = 0; i < MAX_ANIM; i++)
+	{
+		if (anim[i] == nullptr)
+		{
+			anim[i] = new Animation(a, x, y);
+			return;
+		}
+	}
 }

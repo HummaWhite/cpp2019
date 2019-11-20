@@ -7,6 +7,7 @@
 #include "typename.h"
 #include "acllib.h"
 #include "bumpbox.h"
+#include "sound.h"
 
 class Entity
 {
@@ -37,16 +38,14 @@ public:
 	virtual void heal(int recv);
 	bool isDead();
 	int getHealth();
-	virtual void showImg(double _x, double _y);
 	virtual void showImg();
-	void dispHealth(double _x, double _y);
+	void dispHealth();
 	BumpBox getBox();
 	ImgForm getImg();
 	void setBox(const BumpBox &_box);
 	void setImg(const ImgForm &_img);
-	void showBox(double _x, double _y);
-	virtual void showDebugInfo(double _x, double _y);
-	Entity *buf;
+	void showBox();
+	virtual void showDebugInfo();
 	Entity *target;
 	Entity *user;
 private:
@@ -63,5 +62,8 @@ private:
 
 double dist(Entity *a, Entity *b);
 bool judgeCollision(Entity *a, Entity *b);
+extern Entity* addSprite(Entity *spr);
+
+extern Entity *sprite[MAX_SPRITES];
 
 #endif

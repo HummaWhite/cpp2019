@@ -11,24 +11,18 @@
 #include "animation.h"
 #include "cucco.h"
 #include "bari.h"
+#include "sound.h"
 
 const int Frame_Rate = 75;
 
-bool keyPressing[200] = {0};
+bool keyPressing[200];
 bool DEBUG_SHOWBOX = 0;
 
-Entity *sprite[MAX_SPRITES] = {nullptr};
-Player *player;
-ACL_Image BG_IMG;
-ACL_Sound BGM, TMP, curRegion;
-Animation *anim[MAX_ANIM] = {nullptr};
 
-void switchBGM(int id)
-{
-	stopSound(BGM);
-	loadSound(BG_Music[id], &BGM);
-	playSound(BGM, -1);
-}
+Player *player;
+ACL_Image BG_IMG, tmpImg;
+
+double playerPosX, playerPosY;
 
 int inRegion()
 {
@@ -39,25 +33,13 @@ int inRegion()
 	else return Over_World;
 }
 
-void newAnim(AnimForm a, double x, double y)
-{
-	for (int i = 0; i < MAX_ANIM; i++)
-	{
-		if (anim[i] == nullptr)
-		{
-			anim[i] = new Animation(a, x, y);
-			return;
-		}
-	}
-}
-
 void paintAnim()
 {
 	for (int i = 0; i < MAX_ANIM; i++)
 	{
 		if (anim[i] != nullptr)
 		{
-			anim[i]->show(player->getX(), player->getY());
+			anim[i]->show();
 		}
 	}
 }
@@ -65,10 +47,10 @@ void paintAnim()
 void paintSprite(Entity *e)
 {
 	if (e == nullptr) return;
-	if (DEBUG_SHOWBOX) e->showDebugInfo(player->getX(), player->getY());
+	if (DEBUG_SHOWBOX) e->showDebugInfo();
 	if (abs(e->getX() - player->getX()) > W_Width + 160) return;
 	if (abs(e->getY() - player->getY()) > W_Height + 160) return;
-	e->showImg(player->getX(), player->getY());
+	e->showImg();
 }
 
 void paintEvent()
@@ -76,12 +58,12 @@ void paintEvent()
 	beginPaint();
 	clearDevice();
 	putImageScale(
-			&BG_IMG,
-			W_Width / 2 - player->getX(),
-			W_Height / 2 - player->getY(),
-			Map_Width,
-			Map_Height
-			);
+					&BG_IMG,
+					W_Width / 2 - playerPosX,
+					W_Height / 2 - playerPosY,
+					Map_Width,
+					Map_Height
+				);
 	if (sprite[0] != nullptr)
 	{
 		if (sprite[0]->facing() == UP || sprite[0]->facing() == RIGHT) paintSprite(sprite[0]);
@@ -91,7 +73,7 @@ void paintEvent()
 		if (player->isDead()) continue;
 		paintSprite(sprite[i]);
 	}
-	if (DEBUG_SHOWBOX) player->showDebugInfo(player->getX(), player->getY());
+	if (DEBUG_SHOWBOX) player->showDebugInfo();
 	player->showImg();
 	if (sprite[0] != nullptr)
 	{
@@ -124,10 +106,6 @@ void keyboardEvent(int key, int event)
 			case 'C':
 				player->useItem();
 				break;
-			case VK_SPACE:
-				if (keyPressing[VK_SPACE] || player->buf != nullptr || sprite[0] != nullptr) break;
-				player->useSword();
-				break;
 			case VK_SHIFT:
 				printf("switch\n");
 				player->switchItem();
@@ -136,12 +114,20 @@ void keyboardEvent(int key, int event)
 		keyPressing[key] = 1;
 	}
 	if (event == KEY_UP) keyPressing[key] = 0;
-	if (!keyPressing[VK_SPACE])
+}
+
+void animEvent()
+{
+	for (int i = 0; i < MAX_ANIM; i++)
 	{
-		if (sprite[0] != nullptr)
+		if (anim[i] != nullptr)
 		{
-			delete sprite[0];
-			sprite[0] = player->buf = nullptr;
+			if (anim[i]->finished())
+			{
+				delete anim[i];
+				anim[i] = nullptr;
+			}
+			else anim[i]->nextFrame();
 		}
 	}
 }
@@ -158,27 +144,8 @@ void diePlayer()
 		player->turn(-1);
 		dieCounter = 0;
 	}
-	if (!dying)
-	{
-		loadSound("src/sound/Link_Dying.wav", &TMP);
-		playSound(TMP, 0);
-	}
+	if (!dying) sound("src/sound/Link_Dying.wav", 0);
 	dying = 1;
-}
-
-void movePlayer()
-{
-	bool moving = 0;
-	for (int i = 0; i < 4; i++)
-	{
-		if (keyPressing[arrowKey[i]])
-		{
-			player->moveDir(i);
-			player->turn(i);
-			moving = 1;
-		}
-	}
-	if (!moving) player->turn(-1);
 }
 
 int lHealthCounter;
@@ -200,40 +167,13 @@ void nextEvent(int id)
 		switchBGM(curRegion);
 	}
 	paintEvent();
-	for (int i = 0; i < MAX_ANIM; i++)
-	{
-		if (anim[i] != nullptr)
-		{
-			if (anim[i]->finished())
-			{
-				delete anim[i];
-				anim[i] = nullptr;
-			}
-			else anim[i]->nextFrame();
-		}
-	}
+	animEvent();
 	if (player->isDead())
 	{
 		diePlayer();
 		return;
 	}
 	player->checkHealth();
-	if (player->buf != nullptr)
-	{
-		if (player->buf->category() != C_Armor)
-		{
-			for (int i = 1; i < MAX_SPRITES; i++)
-			{
-				if (sprite[i] == nullptr)
-				{
-					sprite[i] = player->buf;
-					player->buf = nullptr;
-					break;
-				}
-			}
-		}
-		else sprite[0] = player->buf;
-	}
 	for (int i = 0; i < MAX_SPRITES; i++)
 	{
 		if (sprite[i] == nullptr) continue;
@@ -259,21 +199,13 @@ void nextEvent(int id)
 		player->reactWith(sprite[i]);
 		for (int j = i + 1; j < MAX_SPRITES; j++)
 		{
-			if (sprite[j] == nullptr)
-			{
-				if (sprite[i]->buf != nullptr)
-				{
-					sprite[j] = sprite[i]->buf;
-					sprite[i]->buf = nullptr;
-				}
-				continue;
-			}
+			if (sprite[j] == nullptr) continue;
 			sprite[i]->reactWith(sprite[j]);
 			sprite[j]->reactWith(sprite[i]);
 		}
 		sprite[i]->moveBehavior();
 	}
-	movePlayer();
+	player->moveBehavior();
 }
 
 void initSprite()
@@ -321,5 +253,4 @@ int Setup()
 	registerMouseEvent(mouseEvent);
 	registerKeyboardEvent(keyboardEvent);
 	startTimer(0, 1000 / Frame_Rate);
-	//startTimer(0, 200);
 }

@@ -52,25 +52,25 @@ void Slime::moveBehavior()
 	}
 }
 
-void Slime::showDebugInfo(double _x, double _y)
+void Slime::showDebugInfo()
 {
 	setBrushColor(GREEN);
 	ellipse(
-			getX() - attentionDist - _x + W_Width / 2,
-			getY() - attentionDist - _y + W_Height / 2,
-			getX() + attentionDist - _x + W_Width / 2,
-			getY() + attentionDist - _y + W_Height / 2
+			getX() - attentionDist - playerPosX + W_Width / 2,
+			getY() - attentionDist - playerPosY + W_Height / 2,
+			getX() + attentionDist - playerPosX + W_Width / 2,
+			getY() + attentionDist - playerPosY + W_Height / 2
 		   );
 	if (target != nullptr)
 	{
 		setPenColor(RED);
 		setPenWidth(2);
 		line(
-				getX() - _x + W_Width / 2,
-				getY() - _y + W_Height / 2,
-				target->getX() - _x + W_Width / 2,
-				target->getY() - _y + W_Height / 2
+				getX() - playerPosX + W_Width / 2,
+				getY() - playerPosY + W_Height / 2,
+				target->getX() - playerPosX + W_Width / 2,
+				target->getY() - playerPosY + W_Height / 2
 			);
 	}
-	showBox(_x, _y);
+	showBox();
 }

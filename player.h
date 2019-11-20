@@ -7,6 +7,7 @@
 #include "entity.h"
 #include "item.h"
 #include "sword.h"
+#include "sound.h"
 
 #define PLAYER_MAX_ITEM 5
 
@@ -79,6 +80,7 @@ public:
 	void useSword();
 	void switchItem();
 	bool haveItem(int tp);
+	void moveBehavior();
 	void turn(int dir);
 	void showImg();
 	void checkHealth();
@@ -86,6 +88,7 @@ private:
 	Item *item[PLAYER_MAX_ITEM];
 	int holding;
 	int lHealthCounter;
+	Sword *swd;
 };
 
 #endif

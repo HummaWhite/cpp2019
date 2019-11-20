@@ -4,6 +4,7 @@
 #include "acllib.h"
 #include "item.h"
 #include "bullet.h"
+#include "sound.h"
 
 const ImgForm Arrow_Img[4] =
 {

@@ -1,5 +1,6 @@
 #include "player.h"
 #include "acllib.h"
+#include "typename.h"
 
 int animCounter = 0;
 
@@ -10,6 +11,7 @@ Player::Player():
 	for (int i = 0; i < PLAYER_MAX_ITEM; i++) item[i] = nullptr;
 	setImg(Player_Img[DOWN][0]);
 	setBox(Player_Box[DOWN]);
+	swd = new Sword(this);
 }
 
 Player::~Player()
@@ -19,6 +21,8 @@ Player::~Player()
 		delete item[i];
 		item[i] = nullptr;
 	}
+	delete swd;
+	swd = nullptr;
 }
 
 void Player::reactWith(Entity *e)
@@ -85,17 +89,9 @@ void Player::useItem()
 
 void Player::useSword()
 {
-	if (buf != nullptr) return;
-	Sword *swd = new Sword();
-	int dir = facing();
-	swd->setImg(Sword_Img[dir]);
-	swd->setBox(Sword_Box[dir]);
-	swd->setPos(getX(), getY());
-	swd->user = this;
-	buf = swd;
-	ACL_Sound ctmp;
-	loadSound("src/sound/Sword.wav", &ctmp);
-	playSound(ctmp, 0);
+	if (sprite[0] != nullptr) return;
+	sprite[0] = swd;
+	sound("src/sound/Sword.wav", 0);
 }
 
 void Player::switchItem()
@@ -122,6 +118,25 @@ bool Player::haveItem(int tp)
 	return 0;
 }
 
+void Player::moveBehavior()
+{
+	bool moving = 0;
+	for (int i = 0; i < 4; i++)
+	{
+		if (keyPressing[arrowKey[i]])
+		{
+			moveDir(i);
+			turn(i);
+			moving = 1;
+		}
+	}
+	if (!moving) turn(-1);
+	playerPosX = getX();
+	playerPosY = getY();
+	if (keyPressing[VK_SPACE]) useSword();
+	else sprite[0] = nullptr;
+}
+
 void Player::turn(int dir)
 {
 	if (dir == -1)
@@ -137,28 +152,20 @@ void Player::turn(int dir)
 	setImg(Player_Img[dir][animCounter / 2 + 1]);
 }
 
-ACL_Image itmp;
-
 void Player::showImg()
 {
 	ImgForm _img = getImg();
-	loadImage(_img.path, &itmp);
-	putImageTransparent(&itmp, W_Width / 2 + _img.x, W_Height / 2 + _img.y, _img.w, _img.h, BLUE);
+	loadImage(_img.path, &tmpImg);
+	putImageTransparent(&tmpImg, W_Width / 2 + _img.x, W_Height / 2 + _img.y, _img.w, _img.h, BLUE);
 	for (int i = 2; i <= 40; i += 2)
 	{
 		if (getHealth() >= i)
-		{
-			loadImage("src/heart/heart_full.bmp", &itmp);
-		}
+			loadImage("src/heart/heart_full.bmp", &tmpImg);
 		else if (getHealth() == i - 1)
-		{
-			loadImage("src/heart/heart_half.bmp", &itmp);
-		}
+			loadImage("src/heart/heart_half.bmp", &tmpImg);
 		else
-		{
-			loadImage("src/heart/heart_empty.bmp", &itmp);
-		}
-		putImageTransparent(&itmp, 40 + 36 * ((i / 2 - 1) % 10), 40 + 32 * (i / 2 > 10), 32, 28, BLUE);
+			loadImage("src/heart/heart_empty.bmp", &tmpImg);
+		putImageTransparent(&tmpImg, 40 + 36 * ((i / 2 - 1) % 10), 40 + 32 * (i / 2 > 10), 32, 28, BLUE);
 	}
 	if (item[holding] != nullptr) item[holding]->display();
 }
@@ -169,9 +176,7 @@ void Player::checkHealth()
 	if (lHealthCounter >= 30 * getHealth())
 	{
 		lHealthCounter = 0;
-		ACL_Sound ctmp;
-		loadSound("src/sound/LowHealth.wav", &ctmp);
-		playSound(ctmp, 0);
+		sound("src/sound/LowHealth.wav", 0);
 	}
 	lHealthCounter++;
 }

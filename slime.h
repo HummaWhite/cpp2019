@@ -11,7 +11,7 @@ public:
 	Slime();
 	void reactWith(Entity *e);
 	void moveBehavior();
-	void showDebugInfo(double _x, double _y);
+	void showDebugInfo();
 private:
 	int moveCounter;
 	double dx, dy;

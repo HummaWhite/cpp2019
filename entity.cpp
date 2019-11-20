@@ -1,5 +1,7 @@
 #include "entity.h"
 
+Entity *sprite[MAX_SPRITES] = {nullptr};
+
 Entity::Entity(int tp)
 {
 	moveSpeed = TP_INFO[tp].speed;
@@ -8,7 +10,6 @@ Entity::Entity(int tp)
 	type = tp;
 	lstHurt = 0;
 	lstEffect = -1000;
-	buf = nullptr;
 	target = nullptr;
 	user = nullptr;
 	facingDir = DOWN;
@@ -20,7 +21,7 @@ Entity::Entity(double x1, double y1, double x2, double y2, int dir)
 	setBox(BumpBox{x1 - x, y1 - y, x2 - x1, y2 - y1});
 	facingDir = dir;
 	type = M_Wall;
-	buf = target = user = nullptr;
+	target = user = nullptr;
 	maxHealth = health = 1000;
 }
 
@@ -139,16 +140,13 @@ void Entity::hurtSound()
 	switch (category())
 	{
 		case C_Monster:
-			if (getType() != N_Cucco) loadSound("src/sound/Enemy_Hit.wav", &stmp);
-			else loadSound("src/sound/Cucco.wav", &stmp);
+			if (getType() != N_Cucco) sound("src/sound/Enemy_Hit.wav", 0);
+			else sound("src/sound/Cucco.wav", 0);
 			break;
 		case C_Player:
-			loadSound("src/sound/Link_Hurt.wav", &stmp);
+			sound("src/sound/Link_Hurt.wav", 0);
 			break;
-		default:
-			loadSound("", &stmp);
 	}
-	playSound(stmp, 0);
 }
 
 void Entity::heal(int recv)
@@ -167,31 +165,24 @@ int Entity::getHealth()
 	return health;
 }
 
-ACL_Image tmp;
-
-void Entity::showImg(double _x, double _y)
-{
-	if (type == M_Wall) return;
-	loadImage(img.path, &tmp);
-	putImageTransparent(&tmp, x - _x + W_Width / 2 + img.x, y - _y + W_Height / 2 + img.y, img.w, img.h, BLUE);
-}
-
 void Entity::showImg()
 {
 	if (type == M_Wall) return;
-	showImg(W_Width / 2, W_Height / 2);
+	loadImage(img.path, &tmpImg);
+	putImageTransparent(&tmpImg, x - playerPosX + W_Width / 2 + img.x, y - playerPosY + W_Height / 2 + img.y, img.w, img.h, BLUE);
 }
 
-void Entity::dispHealth(double _x, double _y)
+void Entity::dispHealth()
 {
-	_x -= W_Width / 2 - 20, _y -= W_Height / 2 - 20;
+	double relX = playerPosX + 20 - W_Width / 2;
+	double relY = playerPosY + 20 - W_Height / 2;
 	setPenColor(BLUE);
 	setBrushColor(WHITE);
 	setPenWidth(1);
-	rectangle(x - 1 - _x, y - 25 - _y, x + 40 + 1 - _x, y - 20 - _y);
+	rectangle(x - 1 - relX, y - 25 - relY, x + 40 + 1 - relX, y - 20 - relY);
 	setBrushColor(GREEN);
 	setPenColor(GREEN);
-	rectangle(x - _x, y - 24 - _y, x + (double)(health > 0 ? health : 0) / maxHealth * 40 - _x, y - 21 - _y);
+	rectangle(x - relX, y - 24 - relY, x + (double)(health > 0 ? health : 0) / maxHealth * 40 - relX, y - 21 - relY);
 }
 
 BumpBox Entity::getBox()
@@ -214,44 +205,44 @@ void Entity::setImg(const ImgForm &_img)
 	img = _img;
 }
 
-void Entity::showBox(double _x, double _y)
+void Entity::showBox()
 {
-	dispHealth(_x, _y);
+	dispHealth();
 	setPenColor(YELLOW);
 	setBrushColor(YELLOW);
 	BumpBox _box = getBox();
 	rectangle(
-			_box.x - _x + W_Width / 2,
-			_box.y - _y + W_Height / 2,
-			_box.x - _x + W_Width / 2 + _box.w,
-			_box.y - _y + W_Height / 2 + _box.h
-			);
+				_box.x - playerPosX	+ W_Width / 2,
+				_box.y - playerPosY + W_Height / 2,
+				_box.x - playerPosX + W_Width / 2 + _box.w,
+				_box.y - playerPosY + W_Height / 2 + _box.h
+			 );
 }
 
-void Entity::showDebugInfo(double _x, double _y)
+void Entity::showDebugInfo()
 {
 	if (target != nullptr)
 	{
 		setPenColor(RED);
 		setPenWidth(2);
 		line(
-				getX() - _x + W_Width / 2,
-				getY() - _y + W_Height / 2,
-				target->getX() - _x + W_Width / 2,
-				target->getY() - _y + W_Height / 2
+				getX() - playerPosX + W_Width / 2,
+				getY() - playerPosY + W_Height / 2,
+				target->getX() - playerPosX + W_Width / 2,
+				target->getY() - playerPosY + W_Height / 2
 			);
 	}
 	setPenColor(BLUE);
 	if (user != nullptr)
 	{
 		line(
-				getX() - _x + W_Width / 2,
-				getY() - _y + W_Height / 2,
-				user->getX() - _x + W_Width / 2,
-				user->getY() - _y + W_Height / 2
+				getX() - playerPosX + W_Width / 2,
+				getY() - playerPosY + W_Height / 2,
+				user->getX() - playerPosX + W_Width / 2,
+				user->getY() - playerPosY + W_Height / 2
 			);
 	}
-	showBox(_x, _y);
+	showBox();
 }
 
 double dist(Entity *a, Entity *b)
@@ -264,4 +255,20 @@ bool judgeCollision(Entity *a, Entity *b)
 {
 	if (a == nullptr || b == nullptr) 0;
 	return collide(a->getBox(), b->getBox());
+}
+
+Entity* addSprite(Entity *spr)
+{
+	if (spr == nullptr) return nullptr;
+	bool added = 0;
+	for (int i = 1; i < MAX_SPRITES; i++)
+	{
+		if (sprite[i] == nullptr)
+		{
+			sprite[i] = spr;
+			added = 1;
+			return sprite[i];
+		}
+	}
+	if (!added) return nullptr;
 }

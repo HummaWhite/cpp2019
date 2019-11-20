@@ -11,7 +11,6 @@ void Arrow::effect()
 {
 	Entity *host = getOwner();
 	if (host == nullptr) return;
-	if (host->buf != nullptr) return;
 	Bullet *tmp = new Bullet(A_Arrow);
 	int dir = host->facing();
 	tmp->setImg(Arrow_Img[dir]);
@@ -20,7 +19,6 @@ void Arrow::effect()
 	tmp->setTrail(dir * Pi / 2, 0, 0, TP_INFO[A_Arrow].speed);
 	tmp->setPos(host->getX(), host->getY());
 	tmp->user = host;
-	host->buf = tmp;
-	loadSound("src/sound/Arrow_Shoot.wav", &stmp);
-	playSound(stmp, 0);
+	addSprite(tmp);
+	sound("src/sound/Arrow_Shoot.wav", 0);
 }

@@ -3,8 +3,8 @@
 Bari::Bari():
 	Entity(M_Bari)
 {
-	setImg(ImgForm{"src/bari.bmp", -32, -32, 64, 64});
-	setBox(BumpBox{-32, -32, 64, 64});
+	setImg(Bari_Img[0]);
+	setBox(Bari_Box[0]);
 	behaveCounter = rand() % 200;
 	surroundDist = 320 + rand() % 80;
 	cdist = rand() % 1200 + 500, crot = rand() % 800 + 1200;
@@ -24,6 +24,8 @@ void Bari::reactWith(Entity *e)
 				if (y < ty) theta = -theta;
 				if (x < tx) theta = Pi - theta;
 				dt = Pi / (80 + rand() % 130) * (rand() % 2 == 1 ? 1 : -1);
+				setImg(Bari_Img[1]);
+				setBox(Bari_Box[1]);
 			}
 		}
 		return;
@@ -50,7 +52,7 @@ void Bari::moveBehavior()
 	else
 	{
 		surround(target);
-		if (behaveCounter == 0 && buf == nullptr)
+		if (behaveCounter == 0)
 		{
 			Bullet *tmp = new Bullet(B_FireBall);
 			tmp->setImg(ImgForm{"src/fireball/big.bmp", -12, -12, 28, 28});
@@ -59,10 +61,18 @@ void Bari::moveBehavior()
 			tmp->setCpoint(target->getX(), target->getY());
 			tmp->setPos(getX(), getY());
 			tmp->user = this;
-			buf = tmp;
-			ACL_Sound bctmp;
-			loadSound("src/sound/Zora_Fireball.wav", &bctmp);
-			playSound(bctmp, 0);
+			addSprite(tmp);
+			sound("src/sound/Zora_Fireball.wav", 0);
+		}
+		if (behaveCounter == 180)
+		{
+			setImg(Bari_Img[2]);
+			setBox(Bari_Box[2]);
+		}
+		if (behaveCounter == 20)
+		{
+			setImg(Bari_Img[1]);
+			setBox(Bari_Box[1]);
 		}
 	}
 }

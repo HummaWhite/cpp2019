@@ -46,13 +46,6 @@ enum Region
 	Over_World, Village, Woods
 };
 
-const char BG_Music[3][40] =
-{
-	"src/sound/LightWorld.mid",
-	"src/sound/Kakariko342.mid",
-	"src/sound/LostWoods.mid"
-};
-
 struct TypeInfo
 {
 	double w, h;
@@ -79,7 +72,6 @@ const TypeInfo TP_INFO[] =
 	{72, 72, 16, 1, 2, C_Bullet, "src/arrow/Bow.bmp"},
 	{0, 0, 0, 0, 0, C_None, ""},
 	{0, 0, 0, 0, 0, C_None, ""},
-//   w--h--spd_bst--heal--att_bst--img
 	{32, 28, 0, 16, 0, C_Item, "src/heart/heart.bmp"},
 	{0, 0, 3, 8, 1, C_Monster, ""},
 	{0, 0, 0, 100, 200, C_Wall, ""},
@@ -92,5 +84,9 @@ const int MAX_SPRITES = 200;
 const int W_Width = 1280, W_Height = 720;
 const int Map_Width = 16384, Map_Height = 16384;
 const int MAX_ANIM = 100;
+
+extern double playerPosX, playerPosY;
+extern bool keyPressing[200];
+extern ACL_Image tmpImg;
 
 #endif

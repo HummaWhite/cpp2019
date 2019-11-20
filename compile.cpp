@@ -19,6 +19,7 @@ int main()
 		 "cucco.cpp "
 		 "bari.cpp "
 		 "animation.cpp "
+		 "sound.cpp "
 		 "-std=c++11 -g"
 		);
 	system
@@ -38,6 +39,7 @@ int main()
 		 "cucco.o "
 		 "bari.o "
 		 "animation.o "
+		 "sound.o "
 		 "-lgdi32 -lole32 -loleaut32 -luuid -lwinmm -lmsimg32 "
 		 "-o test02.exe -g"
 		);

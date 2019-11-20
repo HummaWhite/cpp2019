@@ -25,7 +25,7 @@ class Sword:
 	public Entity
 {
 public:
-	Sword();
+	Sword(Entity *host);
 	void moveBehavior();
 	void reactWith(Entity *e);
 };
