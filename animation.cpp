@@ -29,20 +29,19 @@ bool Animation::finished()
 	return curFrame == anim.len;
 }
 
-ACL_Image atmp;
-
 void Animation::show()
 {
 	if (curFrame == anim.len) return;
-	loadImage(anim.img[curFrame], &atmp);
-	putImageTransparent(
-			&atmp,
-			x - anim.w / 2 - playerPosX + W_Width / 2,
-			y - anim.h / 2 - playerPosY + W_Height / 2,
-			anim.w,
-			anim.h,
-			BLUE
-			);
+	loadImage(anim.img[curFrame], &tmpImg);
+	putImageTransparent
+	(
+		&tmpImg,
+		x - anim.w / 2 - playerPosX + W_Width / 2,
+		y - anim.h / 2 - playerPosY + W_Height / 2,
+		anim.w,
+		anim.h,
+		BLUE
+	);
 	if (sounded) return;
 	sound(anim.sound, 0);
 	sounded = 1;

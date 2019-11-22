@@ -57,13 +57,14 @@ void paintEvent()
 {
 	beginPaint();
 	clearDevice();
-	putImageScale(
-					&BG_IMG,
-					W_Width / 2 - playerPosX,
-					W_Height / 2 - playerPosY,
-					Map_Width,
-					Map_Height
-				);
+	putImageScale
+	(
+		&BG_IMG,
+		W_Width / 2 - playerPosX,
+		W_Height / 2 - playerPosY,
+		Map_Width,
+		Map_Height
+	);
 	if (sprite[0] != nullptr)
 	{
 		if (sprite[0]->facing() == UP || sprite[0]->facing() == RIGHT) paintSprite(sprite[0]);

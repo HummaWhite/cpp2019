@@ -211,12 +211,13 @@ void Entity::showBox()
 	setPenColor(YELLOW);
 	setBrushColor(YELLOW);
 	BumpBox _box = getBox();
-	rectangle(
-				_box.x - playerPosX	+ W_Width / 2,
-				_box.y - playerPosY + W_Height / 2,
-				_box.x - playerPosX + W_Width / 2 + _box.w,
-				_box.y - playerPosY + W_Height / 2 + _box.h
-			 );
+	rectangle
+	(
+		_box.x - playerPosX	+ W_Width / 2,
+		_box.y - playerPosY + W_Height / 2,
+		_box.x - playerPosX + W_Width / 2 + _box.w,
+		_box.y - playerPosY + W_Height / 2 + _box.h
+	);
 }
 
 void Entity::showDebugInfo()
@@ -225,22 +226,24 @@ void Entity::showDebugInfo()
 	{
 		setPenColor(RED);
 		setPenWidth(2);
-		line(
-				getX() - playerPosX + W_Width / 2,
-				getY() - playerPosY + W_Height / 2,
-				target->getX() - playerPosX + W_Width / 2,
-				target->getY() - playerPosY + W_Height / 2
-			);
+		line
+		(
+			getX() - playerPosX + W_Width / 2,
+			getY() - playerPosY + W_Height / 2,
+			target->getX() - playerPosX + W_Width / 2,
+			target->getY() - playerPosY + W_Height / 2
+		);
 	}
 	setPenColor(BLUE);
 	if (user != nullptr)
 	{
-		line(
-				getX() - playerPosX + W_Width / 2,
-				getY() - playerPosY + W_Height / 2,
-				user->getX() - playerPosX + W_Width / 2,
-				user->getY() - playerPosY + W_Height / 2
-			);
+		line
+		(
+			getX() - playerPosX + W_Width / 2,
+			getY() - playerPosY + W_Height / 2,
+			user->getX() - playerPosX + W_Width / 2,
+			user->getY() - playerPosY + W_Height / 2
+		);
 	}
 	showBox();
 }
