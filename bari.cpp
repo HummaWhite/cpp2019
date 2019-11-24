@@ -83,3 +83,20 @@ void Bari::surround(Entity *e)
 	setPos(target->getX() + d * cos(theta), target->getY() + d * sin(theta));
 	theta += dt + 0.9 * dt * sin((double)(clock() % crot) / crot * Pi * 2);
 }
+
+void Bari::die()
+{
+	for (int i = 0; i < 12; i++)
+	{
+		Bullet *tmp = new Bullet(B_FireBall);
+		tmp->setImg(ImgForm{"src/fireball/mid.bmp", -8, -8, 16, 16});
+		tmp->setBox(BumpBox{-8, -8, 16, 16});
+		tmp->setTrail((double)(Pi / 6 * i), 0, 0, TP_INFO[B_FireBall].speed);
+		tmp->setCpoint(getX(), getY());
+		tmp->setPos(getX(), getY());
+		tmp->user = this;
+		tmp->target = nullptr;
+		addSprite(tmp);
+	}
+	newAnim(Explode, getX(), getY());
+}

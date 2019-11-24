@@ -29,6 +29,7 @@ public:
 	void reactWith(Entity *e);
 	void moveBehavior();
 	void surround(Entity *e);
+	void die();
 private:
 	int behaveCounter;
 	double surroundDist;

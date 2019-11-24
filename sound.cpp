@@ -4,6 +4,7 @@ ACL_Sound BGM, curRegion;
 
 void sound(const char *soundPath, int opt)
 {
+	if (soundPath == nullptr) return;
 	ACL_Sound tmpSound;
 	loadSound(soundPath, &tmpSound);
 	playSound(tmpSound, opt);

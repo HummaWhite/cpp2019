@@ -165,6 +165,10 @@ int Entity::getHealth()
 	return health;
 }
 
+void Entity::die()
+{
+}
+
 void Entity::showImg()
 {
 	if (type == M_Wall) return;

@@ -45,6 +45,17 @@ const AnimForm Explode =
 	}
 };
 
+const AnimForm Micro_Explode =
+{
+	3, 4, 56, 64,
+	nullptr,
+	{
+		"src/anim/l_explode0.bmp",
+		"src/anim/l_explode1.bmp",
+		"src/anim/l_explode2.bmp"
+	}
+};
+
 struct Animation
 {
 	Animation(AnimForm a, double _x, double _y);

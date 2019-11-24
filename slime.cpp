@@ -76,3 +76,8 @@ void Slime::showDebugInfo()
 	}
 	showBox();
 }
+
+void Slime::die()
+{
+	newAnim(Explode, getX(), getY());
+}

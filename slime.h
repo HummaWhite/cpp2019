@@ -12,6 +12,7 @@ public:
 	void reactWith(Entity *e);
 	void moveBehavior();
 	void showDebugInfo();
+	void die();
 private:
 	int moveCounter;
 	double dx, dy;

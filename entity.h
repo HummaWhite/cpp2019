@@ -8,6 +8,7 @@
 #include "acllib.h"
 #include "bumpbox.h"
 #include "sound.h"
+#include "animation.h"
 
 class Entity
 {
@@ -38,6 +39,7 @@ public:
 	virtual void heal(int recv);
 	bool isDead();
 	int getHealth();
+	virtual void die();
 	virtual void showImg();
 	void dispHealth();
 	BumpBox getBox();

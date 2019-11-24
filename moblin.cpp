@@ -65,3 +65,8 @@ void Moblin::attackedBehavior(Entity *e)
 			avoid(e);
 	}
 }
+
+void Moblin::die()
+{
+	newAnim(Monster_Death, getX(), getY());
+}

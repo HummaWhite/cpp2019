@@ -55,3 +55,13 @@ void Bullet::reactWith(Entity *e)
 			break;
 	}
 }
+
+void Bullet::die()
+{
+	switch(getType())
+	{
+		case B_FireBall:
+			newAnim(Micro_Explode, getX(), getY());
+			break;
+	}
+}

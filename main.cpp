@@ -180,18 +180,7 @@ void nextEvent(int id)
 		if (sprite[i] == nullptr) continue;
 		if (sprite[i]->isDead())
 		{
-			switch (sprite[i]->getType())
-			{
-				case M_Moblin:
-					newAnim(Monster_Death, sprite[i]->getX(), sprite[i]->getY());
-					break;
-				case M_Bari:
-					newAnim(Monster_Death, sprite[i]->getX(), sprite[i]->getY());
-					break;
-				case M_Slime:
-					newAnim(Explode, sprite[i]->getX(), sprite[i]->getY());
-					break;
-			}
+			sprite[i]->die();
 			delete sprite[i];
 			sprite[i] = nullptr;
 			continue;
