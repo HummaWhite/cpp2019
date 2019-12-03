@@ -6,12 +6,12 @@ AnimForm::~AnimForm()
 {
 }
 
-Animation::Animation(AnimForm a, double _x, double _y)
+Animation::Animation(AnimForm a, double _x, double _y, bool _sounded)
 {
 	anim = a;
 	curFrame = fCounter = 0;
 	x = _x, y = _y;
-	sounded = 0;
+	sounded = _sounded;
 }
 
 void Animation::nextFrame()
@@ -47,13 +47,13 @@ void Animation::show()
 	sounded = 1;
 }
 
-void newAnim(AnimForm a, double x, double y)
+void newAnim(AnimForm a, double x, double y, bool sounded)
 {
 	for (int i = 0; i < MAX_ANIM; i++)
 	{
 		if (anim[i] == nullptr)
 		{
-			anim[i] = new Animation(a, x, y);
+			anim[i] = new Animation(a, x, y, sounded);
 			return;
 		}
 	}

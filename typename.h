@@ -77,7 +77,7 @@ const TypeInfo TP_INFO[] =
 	{0, 0, 3, 8, 1, C_Monster, ""},
 	{0, 0, 0, 100, 200, C_Wall, ""},
 	{28, 28, 10, 1, 1, C_Bullet, "res/fireball/big.bmp"},
-	{0, 0, 2, 1000, 0, C_Monster, ""},
+	{0, 0, 2, 1000, 2, C_Monster, ""},
 	{16, 16, 10, 1, 1, C_Bullet, "res/fireball/mid.bmp"}
 };
 

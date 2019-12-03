@@ -3,7 +3,7 @@
 Cucco::Cucco():
 	Entity(N_Cucco)
 {
-	setImg(ImgForm{"res/cucco.bmp", -32, -32, 64, 76});
+	setImg(ImgForm{"res/cucco/cucco.bmp", -32, -32, 64, 76});
 	setBox(BumpBox{-32, -32, 64, 76});
 	hitTime = 0;
 	rage = 0;
@@ -25,37 +25,57 @@ void Cucco::reactWith(Entity *e)
 
 void Cucco::moveBehavior()
 {
+	moveCounter++;
+	if (moveCounter == 90)
+	{
+		dx = rand() % 100 - 50, dy = rand() % 100 - 50;
+		moveCounter = 0;
+	}
 	if (target == nullptr)
 	{
-		moveCounter++;
-		if (moveCounter == 90)
-		{
-			dx = rand() % 100 - 50, dy = rand() % 100 - 50;
-			moveCounter = 0;
-		}
 		if (moveCounter < 30 && (moveCounter / 2) % 4 != 0) moveDir(dx, dy);
+		return;
 	}
-	else
+	if (!rage)
 	{
 		if (dist(target, this) > 600)
 		{
 			target = nullptr;
 			setSpeed(TP_INFO[N_Cucco].speed);
 		}
-		else
+		else avoid(target);
+	}
+	else
+	{
+		clock_t curTime = clock();
+		if (curTime - timeStartRage > 15 * CLOCKS_PER_SEC)
 		{
-			avoid(target);
+			rage = 0;
+			return;
 		}
+		if (moveCounter % 15 == 0) genRageCucco(this, target);
 	}
 }
 
 void Cucco::attackedBehavior(Entity *e)
 {
-	Entity *tmp = (e->category() == C_Bullet || e->category() == C_Armor)? e->user : e;
+	Entity *tmp = (e->category() == C_Bullet || e->category() == C_Armor) ? e->user : e;
 	if (target == nullptr)
 	{
 		target = tmp;
 		setSpeed(5);
 	}
 	heal(100);
+	if (rage) return;
+	if (tmp != target) hitTime = 0;
+	else
+	{
+		hitTime++;
+		if (hitTime == 10)
+		{
+			rage = 1;
+			hitTime = 0;
+			timeStartRage = clock();
+		}
+	}
 }

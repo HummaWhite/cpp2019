@@ -22,5 +22,6 @@ private:
 };
 
 extern void genSpreadBullet(Entity *user, int num);
+extern void genRageCucco(Entity *rager, Entity *target);
 
 #endif

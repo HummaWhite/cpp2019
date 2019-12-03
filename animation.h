@@ -58,7 +58,7 @@ const AnimForm Micro_Explode =
 
 struct Animation
 {
-	Animation(AnimForm a, double _x, double _y);
+	Animation(AnimForm a, double _x, double _y, bool _sounded = 0);
 	double x, y;
 	int curFrame, fCounter;
 	AnimForm anim;
@@ -70,6 +70,6 @@ struct Animation
 
 extern Animation* anim[MAX_ANIM];
 
-extern void newAnim(AnimForm a, double x, double y);
+extern void newAnim(AnimForm a, double x, double y, bool sounded = 0);
 
 #endif

@@ -4,6 +4,7 @@
 #include "acllib.h"
 #include "typename.h"
 #include "entity.h"
+#include "bullet.h"
 
 class Cucco:
 	public Entity
@@ -18,6 +19,7 @@ private:
 	int moveCounter;
 	int hitTime;
 	bool rage;
+	clock_t timeStartRage;
 };
 
 #endif

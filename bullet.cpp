@@ -63,11 +63,15 @@ void Bullet::die()
 		case B_FireBall:
 			newAnim(Micro_Explode, getX(), getY());
 			break;
+		case N_Cucco:
+			newAnim(Monster_Death, getX(), getY(), 1);
+			break;
 	}
 }
 
 void genSpreadBullet(Entity *user, int num)
 {
+	if (user == nullptr) return;
 	for (int i = 0; i < num; i++)
 	{
 		Bullet *tmp = new Bullet(B_FireBall);
@@ -80,4 +84,23 @@ void genSpreadBullet(Entity *user, int num)
 		tmp->target = nullptr;
 		addSprite(tmp);
 	}
+}
+
+void genRageCucco(Entity *rager, Entity *target)
+{
+	if (rager == nullptr || target == nullptr) return;
+	Bullet *tmp = new Bullet(N_Cucco);
+	tmp->setImg(ImgForm{"res/cucco/cucco_fR.bmp", -28, -32, 60, 64});
+	tmp->setBox(BumpBox{-28, -32, 60, 64});
+	double theta = 2 * Pi * ((double)(rand() % 300) / 300);
+	if (theta < Pi / 2 || theta > Pi * 3 / 2 )
+	{
+		tmp->setImg(ImgForm{"res/cucco/cucco_fL.bmp", -28, -32, 60, 64});
+	}
+	tmp->setTrail(theta, 0, 800, -10);
+	tmp->setCpoint(target->getX(), target->getY());
+	tmp->setPos(target->getX() + 800 * cos(theta), target->getY() + 800 * sin(theta));
+	tmp->user = rager;
+	addSprite(tmp);
+	sound("res/sound/Cucco_Fly.wav", 0);
 }
