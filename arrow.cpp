@@ -20,5 +20,5 @@ void Arrow::effect()
 	tmp->setPos(host->getX(), host->getY());
 	tmp->user = host;
 	addSprite(tmp);
-	sound("src/sound/Arrow_Shoot.wav", 0);
+	sound("res/sound/Arrow_Shoot.wav", 0);
 }

@@ -17,6 +17,7 @@ const int Frame_Rate = 75;
 
 bool keyPressing[200];
 bool DEBUG_SHOWBOX = 0;
+bool DEBUG_FREEZE = 0;
 
 
 Player *player;
@@ -94,12 +95,18 @@ void keyboardEvent(int key, int event)
 	{
 		switch (key)
 		{
+			case 'E':
+				genSpreadBullet(player, 120);
+				break;
 			case 'Q':
 				newAnim(Explode, player->getX() + rand() % 40 - 20, player->getY() + rand() % 40 - 20);
 				player->hurt(8);
 				break;
 			case 'B':
 				DEBUG_SHOWBOX ^= 1;
+				break;
+			case 'P':
+				DEBUG_FREEZE ^= 1;
 				break;
 			case 'Z':
 				player->getItem(I_Heart);
@@ -119,10 +126,11 @@ void keyboardEvent(int key, int event)
 
 void animEvent()
 {
+	if (DEBUG_FREEZE) return;
 	for (int i = 0; i < MAX_ANIM; i++)
 	{
 		if (anim[i] != nullptr)
-		{
+		{;
 			if (anim[i]->finished())
 			{
 				delete anim[i];
@@ -145,7 +153,7 @@ void diePlayer()
 		player->turn(-1);
 		dieCounter = 0;
 	}
-	if (!dying) sound("src/sound/Link_Dying.wav", 0);
+	if (!dying) sound("res/sound/Link_Dying.wav", 0);
 	dying = 1;
 }
 
@@ -193,6 +201,7 @@ void nextEvent(int id)
 			sprite[i]->reactWith(sprite[j]);
 			sprite[j]->reactWith(sprite[i]);
 		}
+		if (DEBUG_FREEZE) continue;
 		sprite[i]->moveBehavior();
 	}
 	player->moveBehavior();
@@ -235,7 +244,7 @@ int Setup()
 {
 	srand(time(NULL));
 	initSprite();
-	loadImage("src/light_world.jpg", &BG_IMG);
+	loadImage("res/light_world.jpg", &BG_IMG);
 	switchBGM(inRegion());
 	curRegion = inRegion();
 	initWindow("test02", DEFAULT, DEFAULT, W_Width, W_Height);

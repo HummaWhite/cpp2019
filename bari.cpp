@@ -55,14 +55,14 @@ void Bari::moveBehavior()
 		if (behaveCounter == 0)
 		{
 			Bullet *tmp = new Bullet(B_FireBall);
-			tmp->setImg(ImgForm{"src/fireball/big.bmp", -12, -12, 28, 28});
+			tmp->setImg(ImgForm{"res/fireball/big.bmp", -12, -12, 28, 28});
 			tmp->setBox(BumpBox{-12, -12, 28, 28});
 			tmp->setTrail(theta, -dt * 2, dist(this, target), -TP_INFO[B_FireBall].speed);
 			tmp->setCpoint(target->getX(), target->getY());
 			tmp->setPos(getX(), getY());
 			tmp->user = this;
 			addSprite(tmp);
-			sound("src/sound/Zora_Fireball.wav", 0);
+			sound("res/sound/Zora_Fireball.wav", 0);
 		}
 		if (behaveCounter == 180)
 		{
@@ -86,17 +86,6 @@ void Bari::surround(Entity *e)
 
 void Bari::die()
 {
-	for (int i = 0; i < 12; i++)
-	{
-		Bullet *tmp = new Bullet(B_FireBall);
-		tmp->setImg(ImgForm{"src/fireball/mid.bmp", -8, -8, 16, 16});
-		tmp->setBox(BumpBox{-8, -8, 16, 16});
-		tmp->setTrail((double)(Pi / 6 * i), 0, 0, TP_INFO[B_FireBall].speed);
-		tmp->setCpoint(getX(), getY());
-		tmp->setPos(getX(), getY());
-		tmp->user = this;
-		tmp->target = nullptr;
-		addSprite(tmp);
-	}
+	genSpreadBullet(this, 12);
 	newAnim(Explode, getX(), getY());
 }

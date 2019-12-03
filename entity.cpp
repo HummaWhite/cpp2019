@@ -140,11 +140,11 @@ void Entity::hurtSound()
 	switch (category())
 	{
 		case C_Monster:
-			if (getType() != N_Cucco) sound("src/sound/Enemy_Hit.wav", 0);
-			else sound("src/sound/Cucco.wav", 0);
+			if (getType() != N_Cucco) sound("res/sound/Enemy_Hit.wav", 0);
+			else sound("res/sound/Cucco.wav", 0);
 			break;
 		case C_Player:
-			sound("src/sound/Link_Hurt.wav", 0);
+			sound("res/sound/Link_Hurt.wav", 0);
 			break;
 	}
 }

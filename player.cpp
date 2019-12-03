@@ -89,9 +89,10 @@ void Player::useItem()
 
 void Player::useSword()
 {
+	swd->setPos(getX(), getY());
 	if (sprite[0] != nullptr) return;
 	sprite[0] = swd;
-	sound("src/sound/Sword.wav", 0);
+	sound("res/sound/Sword.wav", 0);
 }
 
 void Player::switchItem()
@@ -160,11 +161,11 @@ void Player::showImg()
 	for (int i = 2; i <= 40; i += 2)
 	{
 		if (getHealth() >= i)
-			loadImage("src/heart/heart_full.bmp", &tmpImg);
+			loadImage("res/heart/heart_full.bmp", &tmpImg);
 		else if (getHealth() == i - 1)
-			loadImage("src/heart/heart_half.bmp", &tmpImg);
+			loadImage("res/heart/heart_half.bmp", &tmpImg);
 		else
-			loadImage("src/heart/heart_empty.bmp", &tmpImg);
+			loadImage("res/heart/heart_empty.bmp", &tmpImg);
 		putImageTransparent(&tmpImg, 40 + 36 * ((i / 2 - 1) % 10), 40 + 32 * (i / 2 > 10), 32, 28, BLUE);
 	}
 	if (item[holding] != nullptr) item[holding]->display();
@@ -176,7 +177,7 @@ void Player::checkHealth()
 	if (lHealthCounter >= 30 * getHealth())
 	{
 		lHealthCounter = 0;
-		sound("src/sound/LowHealth.wav", 0);
+		sound("res/sound/LowHealth.wav", 0);
 	}
 	lHealthCounter++;
 }

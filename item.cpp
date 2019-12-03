@@ -33,7 +33,6 @@ void Item::effect()
 	if (host == nullptr) return;
 	int ownerType = host->getType();
 	host->heal(TP_INFO[type].health);
-	//host->setSpeed(TP_INFO[type].speed + TP_INFO[ownerType].speed);
 }
 
 void Item::display()

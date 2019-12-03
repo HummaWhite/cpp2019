@@ -6,7 +6,7 @@ Slime::Slime():
 	moveCounter = rand() % 60;
 	setFacingDir(rand() % 4);
 	attentionDist = 200;
-	setImg(ImgForm{"src/slime.bmp", -24, -22, 48, 44});
+	setImg(ImgForm{"res/slime.bmp", -24, -22, 48, 44});
 	setBox(BumpBox{-24, -22, 48, 44});
 }
 

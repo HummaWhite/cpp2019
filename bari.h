@@ -9,9 +9,9 @@
 
 const ImgForm Bari_Img[3] =
 {
-	{"src/bari/bari.bmp", -32, -32, 64, 64},
-	{"src/bari/bari_s.bmp", -28, -28, 56, 60},
-	{"src/bari/bari_r.bmp", -36, -32, 72, 68}
+	{"res/bari/bari.bmp", -32, -32, 64, 64},
+	{"res/bari/bari_s.bmp", -28, -28, 56, 60},
+	{"res/bari/bari_r.bmp", -36, -32, 72, 68}
 };
 
 const BumpBox Bari_Box[3] =

@@ -5,7 +5,7 @@ Moblin::Moblin():
 {
 	moveCounter = rand() % 80;
 	setFacingDir(rand() % 4);
-	setImg(ImgForm{"src/moblin0.bmp", -32, -32, 64, 64});
+	setImg(ImgForm{"res/moblin0.bmp", -32, -32, 64, 64});
 	setBox(BumpBox{-32, -32, 64, 64});
 }
 

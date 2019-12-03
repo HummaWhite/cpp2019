@@ -14,48 +14,48 @@
 const ImgForm Player_Img[4][9] =
 {
 	{
-		{"src/player/R0.bmp", -40, -64, 68, 96},
-		{"src/player/R1.bmp", -40, -64, 68, 96},
-		{"src/player/R2.bmp", -36, -64, 68, 96},
-		{"src/player/R3.bmp", -40, -64, 68, 96},
-		{"src/player/R4.bmp", -40, -64, 68, 96},
-		{"src/player/R5.bmp", -40, -64, 68, 96},
-		{"src/player/R6.bmp", -36, -64, 68, 96},
-		{"src/player/R7.bmp", -36, -64, 68, 96},
-		{"src/player/R8.bmp", -40, -64, 68, 96}
+		{"res/player/R0.bmp", -40, -64, 68, 96},
+		{"res/player/R1.bmp", -40, -64, 68, 96},
+		{"res/player/R2.bmp", -36, -64, 68, 96},
+		{"res/player/R3.bmp", -40, -64, 68, 96},
+		{"res/player/R4.bmp", -40, -64, 68, 96},
+		{"res/player/R5.bmp", -40, -64, 68, 96},
+		{"res/player/R6.bmp", -36, -64, 68, 96},
+		{"res/player/R7.bmp", -36, -64, 68, 96},
+		{"res/player/R8.bmp", -40, -64, 68, 96}
 	},
 	{
-		{"src/player/D0.bmp", -32, -64, 64, 96},
-		{"src/player/D1.bmp", -32, -64, 64, 96},
-		{"src/player/D2.bmp", -32, -64, 64, 96},
-		{"src/player/D3.bmp", -32, -64, 64, 96},
-		{"src/player/D4.bmp", -32, -64, 64, 96},
-		{"src/player/D5.bmp", -32, -64, 64, 96},
-		{"src/player/D6.bmp", -32, -64, 64, 96},
-		{"src/player/D7.bmp", -32, -64, 64, 96},
-		{"src/player/D8.bmp", -32, -64, 64, 96}
+		{"res/player/D0.bmp", -32, -64, 64, 96},
+		{"res/player/D1.bmp", -32, -64, 64, 96},
+		{"res/player/D2.bmp", -32, -64, 64, 96},
+		{"res/player/D3.bmp", -32, -64, 64, 96},
+		{"res/player/D4.bmp", -32, -64, 64, 96},
+		{"res/player/D5.bmp", -32, -64, 64, 96},
+		{"res/player/D6.bmp", -32, -64, 64, 96},
+		{"res/player/D7.bmp", -32, -64, 64, 96},
+		{"res/player/D8.bmp", -32, -64, 64, 96}
 	},
 	{
-		{"src/player/L0.bmp", -28, -64, 68, 96},
-		{"src/player/L1.bmp", -28, -64, 68, 96},
-		{"src/player/L2.bmp", -32, -64, 68, 96},
-		{"src/player/L3.bmp", -28, -64, 68, 96},
-		{"src/player/L4.bmp", -28, -64, 68, 96},
-		{"src/player/L5.bmp", -28, -64, 68, 96},
-		{"src/player/L6.bmp", -32, -64, 68, 96},
-		{"src/player/L7.bmp", -32, -64, 68, 96},
-		{"src/player/L8.bmp", -28, -64, 68, 96}
+		{"res/player/L0.bmp", -28, -64, 68, 96},
+		{"res/player/L1.bmp", -28, -64, 68, 96},
+		{"res/player/L2.bmp", -32, -64, 68, 96},
+		{"res/player/L3.bmp", -28, -64, 68, 96},
+		{"res/player/L4.bmp", -28, -64, 68, 96},
+		{"res/player/L5.bmp", -28, -64, 68, 96},
+		{"res/player/L6.bmp", -32, -64, 68, 96},
+		{"res/player/L7.bmp", -32, -64, 68, 96},
+		{"res/player/L8.bmp", -28, -64, 68, 96}
 	},
 	{
-		{"src/player/U0.bmp", -32, -64, 64, 96},
-		{"src/player/U1.bmp", -32, -64, 64, 96},
-		{"src/player/U2.bmp", -32, -64, 64, 96},
-		{"src/player/U3.bmp", -32, -64, 64, 96},
-		{"src/player/U4.bmp", -32, -64, 64, 96},
-		{"src/player/U5.bmp", -32, -64, 64, 96},
-		{"src/player/U6.bmp", -32, -64, 64, 96},
-		{"src/player/U7.bmp", -32, -64, 64, 96},
-		{"src/player/U8.bmp", -32, -64, 64, 96}
+		{"res/player/U0.bmp", -32, -64, 64, 96},
+		{"res/player/U1.bmp", -32, -64, 64, 96},
+		{"res/player/U2.bmp", -32, -64, 64, 96},
+		{"res/player/U3.bmp", -32, -64, 64, 96},
+		{"res/player/U4.bmp", -32, -64, 64, 96},
+		{"res/player/U5.bmp", -32, -64, 64, 96},
+		{"res/player/U6.bmp", -32, -64, 64, 96},
+		{"res/player/U7.bmp", -32, -64, 64, 96},
+		{"res/player/U8.bmp", -32, -64, 64, 96}
 	}
 };
 

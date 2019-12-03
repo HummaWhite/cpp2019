@@ -21,7 +21,8 @@ enum Type
 	M_Bari,
 	M_Wall,
 	B_FireBall,
-	N_Cucco
+	N_Cucco,
+	B_FireBall_M
 };
 
 enum Class_Category
@@ -65,18 +66,19 @@ struct ImgForm
 const TypeInfo TP_INFO[] =
 {//  w--h--speed--health--att--category--img
 	{0, 0, 0, 0, 0, C_None, ""},
-	{52, 64, 4, 40, 2, C_Player, "src/player/walkD.bmp"},
-	{64, 64, 2, 4, 1, C_Monster, "src/moblin0.bmp"},
-	{48, 44, 3, 4, 1, C_Monster, "src/slime.bmp"},
-	{64, 64, 0, 1, 2, C_Armor, "src/sword/sword_I.bmp"},
-	{72, 72, 16, 1, 2, C_Bullet, "src/arrow/Bow.bmp"},
+	{52, 64, 4, 40, 2, C_Player, "res/player/walkD.bmp"},
+	{64, 64, 2, 4, 1, C_Monster, "res/moblin0.bmp"},
+	{48, 44, 3, 4, 1, C_Monster, "res/slime.bmp"},
+	{64, 64, 0, 1, 2, C_Armor, "res/sword/sword_I.bmp"},
+	{72, 72, 16, 1, 2, C_Bullet, "res/arrow/Bow.bmp"},
 	{0, 0, 0, 0, 0, C_None, ""},
 	{0, 0, 0, 0, 0, C_None, ""},
-	{32, 28, 0, 16, 0, C_Item, "src/heart/heart.bmp"},
+	{32, 28, 0, 16, 0, C_Item, "res/heart/heart.bmp"},
 	{0, 0, 3, 8, 1, C_Monster, ""},
 	{0, 0, 0, 100, 200, C_Wall, ""},
-	{28, 28, 10, 1, 1, C_Bullet, "src/fireball/big.bmp"},
-	{0, 0, 2, 1000, 0, C_Monster, ""}
+	{28, 28, 10, 1, 1, C_Bullet, "res/fireball/big.bmp"},
+	{0, 0, 2, 1000, 0, C_Monster, ""},
+	{16, 16, 10, 1, 1, C_Bullet, "res/fireball/mid.bmp"}
 };
 
 const int arrowKey[4] = {VK_RIGHT, VK_DOWN, VK_LEFT, VK_UP};

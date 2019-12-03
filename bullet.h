@@ -21,4 +21,6 @@ private:
 	double cx, cy;
 };
 
+extern void genSpreadBullet(Entity *user, int num);
+
 #endif

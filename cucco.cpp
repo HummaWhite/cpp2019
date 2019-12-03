@@ -3,7 +3,7 @@
 Cucco::Cucco():
 	Entity(N_Cucco)
 {
-	setImg(ImgForm{"src/cucco.bmp", -32, -32, 64, 76});
+	setImg(ImgForm{"res/cucco.bmp", -32, -32, 64, 76});
 	setBox(BumpBox{-32, -32, 64, 76});
 	hitTime = 0;
 	rage = 0;

@@ -65,3 +65,19 @@ void Bullet::die()
 			break;
 	}
 }
+
+void genSpreadBullet(Entity *user, int num)
+{
+	for (int i = 0; i < num; i++)
+	{
+		Bullet *tmp = new Bullet(B_FireBall);
+		tmp->setImg(ImgForm{"res/fireball/mid.bmp", -8, -8, 16, 16});
+		tmp->setBox(BumpBox{-8, -8, 16, 16});
+		tmp->setTrail((double)(2 * Pi / num * i), 0, 0, TP_INFO[B_FireBall].speed);
+		tmp->setCpoint(user->getX(), user->getY());
+		tmp->setPos(user->getX(), user->getY());
+		tmp->user = user;
+		tmp->target = nullptr;
+		addSprite(tmp);
+	}
+}

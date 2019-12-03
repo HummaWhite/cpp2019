@@ -10,9 +10,9 @@ extern ACL_Sound BGM, curRegion;
 
 const char BG_Music[3][40] =
 {
-	"src/sound/LightWorld.mid",
-	"src/sound/Kakariko342.mid",
-	"src/sound/LostWoods.mid"
+	"res/sound/LightWorld.mid",
+	"res/sound/Kakariko342.mid",
+	"res/sound/LostWoods.mid"
 };
 
 #endif

@@ -7,10 +7,10 @@
 
 const ImgForm Sword_Img[4] =
 {
-	{"src/sword/swordR.bmp", 4, -4, 52, 24},
-	{"src/sword/swordD.bmp", 0, 12, 24, 52},
-	{"src/sword/swordL.bmp", -56, -4, 52, 24},
-	{"src/sword/swordU.bmp", -24, -68, 24, 52}
+	{"res/sword/swordR.bmp", 4, -4, 52, 24},
+	{"res/sword/swordD.bmp", 0, 12, 24, 52},
+	{"res/sword/swordL.bmp", -56, -4, 52, 24},
+	{"res/sword/swordU.bmp", -24, -68, 24, 52}
 };
 
 const BumpBox Sword_Box[4] =
