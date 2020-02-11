@@ -2,9 +2,9 @@
 
 ### cpp2019课的实验
 
-![](md-pics/Movies & TV 2020_2_11 23_11_37.png)
+![](https://github.com/HummaWhite/cpp2019/blob/master/md-pics/Movies%20%26%20TV%202020_2_11%2023_11_37.png)
 
-![](md-pics/test02 2019_11_25 14_06_43.png)
+![](https://github.com/HummaWhite/cpp2019/blob/master/md-pics/test02%202019_11_25%2014_06_43.png)
 
 cpp课的大实验要求用C++的方法（类封装、继承、多态）+ACLlib写一个精灵游戏，恰好像素风格素材很适合这种功能简单的图形库，于是就仿了一个劣质的塞尔达出来。图音素材取自A Link to The Past与Link's Awakening。游戏中有几类不同的精灵，会根据玩家的行为作出不同的互动。特意还原了塞尔达传说最强生物：鸡神。
 
@@ -46,8 +46,8 @@ Shift： 										切换物品
 >
 >**Debug暂停：**暂停除玩家精灵外其他精灵的活动
 
-![](md-pics/Movies & TV 2020_2_11 23_05_02.png)
+![](https://github.com/HummaWhite/cpp2019/blob/master/md-pics/Movies%20%26%20TV%202020_2_11%2023_05_02.png)
 
-![](md-pics/test02 2019_10_24 18_34_17.png)
+![](https://github.com/HummaWhite/cpp2019/blob/master/md-pics/test02%202019_10_24%2018_34_17.png)
 
-![](md-pics/Movies & TV 2020_2_11 23_05_50.png)
+![](https://github.com/HummaWhite/cpp2019/blob/master/md-pics/Movies%20%26%20TV%202020_2_11%2023_05_50.png)
